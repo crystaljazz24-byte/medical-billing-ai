@@ -1,0 +1,30 @@
+{
+  "specialties": {
+    "Pediatrics": {
+      "0-18": [
+        {
+          "cpt": "99213",
+          "icd": ["J06.9", "R05"],
+          "description": "Office visit for minor illness",
+          "payors": {
+            "Medicare": 100,
+            "BlueCross": 120
+          }
+        }
+      ]
+    },
+    "Cardiology": {
+      "19-99": [
+        {
+          "cpt": "93000",
+          "icd": ["I10", "I25.10"],
+          "description": "Electrocardiogram",
+          "payors": {
+            "Medicare": 75,
+            "BlueCross": 95
+          }
+        }
+      ]
+    }
+  }
+}
