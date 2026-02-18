@@ -1,139 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Crystal Wynn Medical Billing</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f9ff;
-      text-align: center;
-    }
-h1, h2 {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #0a3d62;
-}
-
-p {
-    color: #222;
-}
-
-button {
-    background-color: #0a3d62;
-    color: white;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background-color: #074173;
-}
-
-    
-
-    header {
-      background-color: #0a3d62;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 36px;
-    }
-
-    p {
-      font-size: 18px;
-    }
-
-    .services {
-      padding: 40px 20px;
-    }
-
-    .service-box {
-      background: white;
-      margin: 20px auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
-    <section class="claim-form">
+<section class="claim-form">
   <h2>Submit a Claim</h2>
-  <form onsubmit="alert('Claim submitted!')" style="margin: 20px auto; max-width: 400px; text-align:left;">
-    <label>Patient Name:</label><br>
-    <input type="text" name="patientName" required style="width:100%; padding:8px;"><br><br>
-    
+
+  <form id="claimForm" style="margin: 20px auto; max-width: 400px; text-align:left;">
+
+    <!-- Step 1: Specialty -->
+    <label>Specialty:</label><br>
+    <input type="text" name="specialty" required style="width:100%; padding:8px;"><br><br>
+
+    <!-- Step 2: Patient Age -->
+    <label>Patient Age:</label><br>
+    <input type="number" name="age" required style="width:100%; padding:8px;"><br><br>
+
+    <!-- Step 3: Date of Service -->
     <label>Date of Service:</label><br>
     <input type="date" name="dateOfService" required style="width:100%; padding:8px;"><br><br>
-    
-    <label>CPT Code:</label><br>
-    <input type="text" name="cptCode" required style="width:100%; padding:8px;"><br><br>
-    
-    <label>ICD-10 Code:</label><br>
-    <input type="text" name="icdCode" required style="width:100%; padding:8px;"><br><br>
-    
+
     <button type="submit">Submit Claim</button>
   </form>
+
+  <!-- Live Suggestions Display -->
+  <div id="suggestions" style="margin-top:20px; max-width:400px; margin-left:auto; margin-right:auto;">
+    <!-- Suggested codes will appear here -->
+  </div>
 </section>
 
+<script type="module">
+import { suggestCodes } from './lib/billing.js';
 
-    button {
-      padding: 12px 20px;
-      background-color: #0a3d62;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+const form = document.getElementById('claimForm');
+const suggestionsDiv = document.getElementById('suggestions');
 
-    button:hover {
-      background-color: #074173;
-    }
-<section class="login">
-  <h2>Patient Login</h2>
-  <form onsubmit="alert('Login feature coming soon!')" style="margin: 20px auto; max-width: 300px; text-align:left;">
-    <label>Email:</label><br>
-    <input type="email" required style="width:100%; padding:8px;"><br><br>
-    <label>Password:</label><br>
-    <input type="password" required style="width:100%; padding:8px;"><br><br>
-    <button type="submit">Login</button>
-  </form>
-</section>
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-    footer {
-      background-color: #0a3d62;
-      color: white;
-      padding: 20px;
-      margin-top: 40px;
-    }
-  </style>
-</head>
-<body>
+  const specialty = form.elements['specialty'].value;
+  const age = parseInt(form.elements['age'].value);
 
-<header>
-  <h1>Crystal Wynn Medical Billing Services</h1>
-  <p>Accurate • Compliant • Fast Reimbursement</p>
-</header>
+  const suggested = suggestCodes(specialty, age);
 
-<section class="services">
-  <div class="service-box">
-    <h2>Claims Submission</h2>
-    <p>Electronic claim submission for faster processing.</p>
-  </div>
+  // Clear previous suggestions
+  suggestionsDiv.innerHTML = '';
 
-  <div class="service-box">
-    <h2>Insurance Verification</h2>
-    <p>Real-time eligibility and benefits verification.</p>
-  </div>
+  if (suggested.length === 0) {
+    suggestionsDiv.innerHTML = '<p style="color:red;">No codes found for this specialty/age</p>';
+  } else {
+    suggested.forEach(item => {
+      const box = document.createElement('div');
+      box.style.background = '#fff';
+      box.style.padding = '10px';
+      box.style.marginBottom = '10px';
+      box.style.borderRadius = '6px';
+      box.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+      box.innerHTML = `
+        <strong>${item.description}</strong><br>
+        CPT: ${item.cpt}<br>
+        ICD-10: ${item.icd.join(', ')}<br>
+        Payor Fees: ${Object.entries(item.payors).map(([k,v]) => k + ': $' + v).join(', ')}
+      `;
+      suggestionsDiv.appendChild(box);
+    });
+  }
+});
+</script>
 
-  <div class="service-box">
-    <h2>Denial Management</h2>
-    <p>Professional follow-up and appeals handling.</p>
-  </div>
 
   <button onclick="alert('Contact us at: info@yourbilling.com')">
     Contact Us
