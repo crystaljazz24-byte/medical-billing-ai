@@ -13,3 +13,4 @@ export function suggestCodes(specialty, age) {
 
     return specialtyData[ageRange];
 }
+1
