@@ -1,19 +1,51 @@
-<section class="claim-form">
-  <h2>Submit a Claim</h2>
+<script type="module">
+import { suggestCodes } from './lib/billing.js';
 
-  <form id="claimForm" style="margin: 20px auto; max-width: 400px; text-align:left;">
+const form = document.getElementById('claimForm');
+const suggestionsDiv = document.getElementById('suggestions');
 
-    <!-- Step 1: Specialty -->
-    <label>Specialty:</label><br>
-    <input type="text" name="specialty" required style="width:100%; padding:8px;"><br><br>
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-    <!-- Step 2: Patient Age -->
-    <label>Patient Age:</label><br>
-    <input type="number" name="age" required style="width:100%; padding:8px;"><br><br>
+  const specialty = form.elements['specialty'].value;
+  const age = parseInt(form.elements['age'].value);
 
-    <!-- Step 3: Date of Service -->
-    <label>Date of Service:</label><br>
-    <input type="date" name="dateOfService" required style="width:100%; padding:8px;"><br><br>
+  const suggested = suggestCodes(specialty, age);
+
+  // Clear previous suggestions
+  suggestionsDiv.innerHTML = '';
+
+  if (suggested.length === 0) {
+    suggestionsDiv.innerHTML = '<p style="color:red;">No codes found for this specialty/age</p>';
+  } else {
+    suggested.forEach(item => {
+      const box = document.createElement('div');
+      box.style.background = '#fff';
+      box.style.padding = '10px';
+      box.style.marginBottom = '10px';
+      box.style.borderRadius = '6px';
+      box.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+
+      let payorButtons = '';
+      for (const [payor, fee] of Object.entries(item.payors)) {
+        payorButtons += `<button style="margin:5px;" onclick="alert('Contacting ${payor} for submission...')">${payor}</button>`;
+      }
+
+      box.innerHTML = `
+        <strong>${item.description}</strong><br>
+        CPT: ${item.cpt}<br>
+        ICD-10: ${item.icd.join(', ')}<br>
+        Payor Fees: ${Object.entries(item.payors).map(([k,v]) => k + ': $' + v).join(', ')}<br>
+        ${payorButtons}
+        <br><br>
+        <button onclick="alert('Electronic claim submitted for ${item.cpt} / ${item.icd.join(', ')}')">Submit Electronically</button>
+      `;
+
+      suggestionsDiv.appendChild(box);
+    });
+  }
+});
+</script>
 
     <button type="submit">Submit Claim</button>
   </form>
