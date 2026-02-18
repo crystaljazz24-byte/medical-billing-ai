@@ -10,6 +10,26 @@
       background-color: #f4f9ff;
       text-align: center;
     }
+h1, h2 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #0a3d62;
+}
+
+p {
+    color: #222;
+}
+
+button {
+    background-color: #0a3d62;
+    color: white;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #074173;
+}
+
+    
 
     header {
       background-color: #0a3d62;
@@ -39,6 +59,26 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+    
+    <section class="claim-form">
+  <h2>Submit a Claim</h2>
+  <form onsubmit="alert('Claim submitted!')" style="margin: 20px auto; max-width: 400px; text-align:left;">
+    <label>Patient Name:</label><br>
+    <input type="text" name="patientName" required style="width:100%; padding:8px;"><br><br>
+    
+    <label>Date of Service:</label><br>
+    <input type="date" name="dateOfService" required style="width:100%; padding:8px;"><br><br>
+    
+    <label>CPT Code:</label><br>
+    <input type="text" name="cptCode" required style="width:100%; padding:8px;"><br><br>
+    
+    <label>ICD-10 Code:</label><br>
+    <input type="text" name="icdCode" required style="width:100%; padding:8px;"><br><br>
+    
+    <button type="submit">Submit Claim</button>
+  </form>
+</section>
+
 
     button {
       padding: 12px 20px;
@@ -53,6 +93,16 @@
     button:hover {
       background-color: #074173;
     }
+<section class="login">
+  <h2>Patient Login</h2>
+  <form onsubmit="alert('Login feature coming soon!')" style="margin: 20px auto; max-width: 300px; text-align:left;">
+    <label>Email:</label><br>
+    <input type="email" required style="width:100%; padding:8px;"><br><br>
+    <label>Password:</label><br>
+    <input type="password" required style="width:100%; padding:8px;"><br><br>
+    <button type="submit">Login</button>
+  </form>
+</section>
 
     footer {
       background-color: #0a3d62;
