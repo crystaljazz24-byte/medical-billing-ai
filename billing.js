@@ -11,5 +11,5 @@ export function suggestCodes(specialty, age) {
 
     if (!ageRange) return [];
 
-    return specialtyData[ageRange];
+    return specialtyData[ageRange];2
 }
