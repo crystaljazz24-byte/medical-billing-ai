@@ -1,7 +1,14 @@
 [
   {
+    "code": "Z01.419",
+    "description": "Encounter for gynecological examination (general) (routine) without abnormal findings",
+    "specialty": "Obstetrics",
+    "minAge": 18,
+    "maxAge": 65
+  },
+  {
     "code": "J10.1",
-    "description": "Influenza with pneumonia",
+    "description": "Influenza with other respiratory manifestations",
     "specialty": "Pulmonology",
     "minAge": 0,
     "maxAge": 120
@@ -11,13 +18,6 @@
     "description": "Type 2 diabetes mellitus without complications",
     "specialty": "Endocrinology",
     "minAge": 18,
-    "maxAge": 120
-  },
-  {
-    "code": "M54.5",
-    "description": "Low back pain",
-    "specialty": "Orthopedics",
-    "minAge": 10,
     "maxAge": 120
   }
 ]
