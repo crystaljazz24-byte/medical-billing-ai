@@ -17,78 +17,82 @@ function selectCode(code) {
   document.getElementById("selectedCode").value = code;
 }
 
-// ------------------ LIVE SEARCH (DEMO DATA) ------------------
+// ------------------ ELEMENTS ------------------
 const symptomInput = document.getElementById("symptom");
 const codeInput = document.getElementById("code");
 const resultDiv = document.getElementById("result");
 
+// ------------------ DEBOUNCE ------------------
 function debounce(func, delay) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), delay);
   };
 }
 
-// Filter function for demo data
-function filterDemoData(query) {
-  const q = query.toLowerCase();
-  return demoICDData.filter(item =>
-    item.Code.toLowerCase().includes(q) || item.Name.toLowerCase().includes(q)
-  );
-}
-
-// Symptom live search (demo)
-symptomInput.addEventListener("input", debounce(function() {
-  const query = symptomInput.value.trim();
-  if (query.length < 1) { resultDiv.innerHTML = ""; return; }
-
-  const matches = filterDemoData(query);
-  if (matches.length === 0) {
+// ------------------ RENDER TABLE ------------------
+function renderTable(matches) {
+  if (!matches.length) {
     resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
     return;
   }
 
-  let tableHTML = "<table><tr><th>ICD Code</th><th>Description</th></tr>";
+  let html = "<table><tr><th>ICD Code</th><th>Description</th></tr>";
   matches.forEach(item => {
-    tableHTML += `<tr onclick="selectCode('${item.Code}')"><td>${item.Code}</td><td>${item.Name}</td></tr>`;
+    html += `<tr onclick="selectCode('${item.Code}')"><td>${item.Code}</td><td>${item.Name}</td></tr>`;
   });
-  tableHTML += "</table>";
-  resultDiv.innerHTML = tableHTML;
-}, 300));
+  html += "</table>";
+  resultDiv.innerHTML = html;
+}
 
-// Code exact search (demo)
-codeInput.addEventListener("change", function() {
-  const query = codeInput.value.trim();
-  if (!query) { resultDiv.innerHTML = ""; return; }
+// ------------------ LIVE SYMPTOM SEARCH (DEMO) ------------------
+symptomInput.addEventListener(
+  "input",
+  debounce(() => {
+    const query = symptomInput.value.trim().toLowerCase();
+    if (query.length < 1) {
+      resultDiv.innerHTML = "";
+      return;
+    }
 
-  const match = demoICDData.find(item => item.Code.toLowerCase() === query.toLowerCase());
-  if (match) {
-    resultDiv.innerHTML = `
-      <table>
-        <tr onclick="selectCode('${match.Code}')"><th>ICD Code</th><td>${match.Code}</td></tr>
-        <tr><th>Description</th><td>${match.Name}</td></tr>
-      </table>`;
-  } else {
-    resultDiv.innerHTML = "<p>No matching ICD-10 code found.</p>";
+    const matches = demoICDData.filter(item =>
+      item.Code.toLowerCase().includes(query) ||
+      item.Name.toLowerCase().includes(query)
+    );
+
+    renderTable(matches);
+  }, 300)
+);
+
+// ------------------ EXACT CODE SEARCH (DEMO) ------------------
+codeInput.addEventListener("input", () => {
+  const query = codeInput.value.trim().toLowerCase();
+  if (!query) {
+    resultDiv.innerHTML = "";
+    return;
   }
+
+  const matches = demoICDData.filter(item => item.Code.toLowerCase().includes(query));
+  renderTable(matches);
 });
 
 // ------------------ BILLING CALCULATOR ------------------
-document.getElementById("calcBtn").addEventListener("click", function() {
+document.getElementById("calcBtn").addEventListener("click", () => {
   const cost = parseFloat(document.getElementById("costInput").value);
-  const resultDiv = document.getElementById("totalResult");
+  const totalDiv = document.getElementById("totalResult");
 
   if (isNaN(cost) || cost <= 0) {
-    resultDiv.innerText = "Please enter a valid cost.";
+    totalDiv.innerText = "Please enter a valid cost.";
     return;
   }
 
   const markupRate = 0.20;
-  const total = cost + (cost * markupRate);
+  const total = cost + cost * markupRate;
   const selectedCode = document.getElementById("selectedCode").value || "N/A";
 
-  resultDiv.innerHTML = `
+  totalDiv.innerHTML = `
     <p>Total with 20% markup: $${total.toFixed(2)}</p>
-    <p>Selected ICD-10 code: ${selectedCode}</p>`;
+    <p>Selected ICD-10 code: ${selectedCode}</p>
+  `;
 });
