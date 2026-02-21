@@ -1,21 +1,31 @@
-// ------------------ ICD SEARCH ------------------
-document.getElementById("searchBtn").addEventListener("click", async function() {
-  const codeInput = document.getElementById("code").value.trim();
-  const symptomInput = document.getElementById("symptom").value.trim();
-  const resultDiv = document.getElementById("result");
+// ------------------ SELECT CODE ------------------
+function selectCode(code) {
+  document.getElementById("selectedCode").value = code;
+}
+
+// ------------------ ICD SEARCH (CODE + SYMPTOM LIVE) ------------------
+const symptomInput = document.getElementById("symptom");
+const resultDiv = document.getElementById("result");
+
+function debounce(func, delay) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+symptomInput.addEventListener("input", debounce(async function() {
+  const query = symptomInput.value.trim();
+  if (query.length < 2) {
+    resultDiv.innerHTML = "";
+    return;
+  }
+
   resultDiv.innerHTML = "Searching...";
 
   try {
-    let url = "";
-    if (codeInput !== "") {
-      url = `http://www.icd10api.com/?code=${encodeURIComponent(codeInput)}&r=json`;
-    } else if (symptomInput !== "") {
-      url = `http://www.icd10api.com/?s=${encodeURIComponent(symptomInput)}&r=json`;
-    } else {
-      resultDiv.innerHTML = "<p>Please enter a code or symptom.</p>";
-      return;
-    }
-
+    const url = `http://www.icd10api.com/?s=${encodeURIComponent(query)}&r=json`;
     const response = await fetch(url);
     const data = await response.json();
 
@@ -26,7 +36,28 @@ document.getElementById("searchBtn").addEventListener("click", async function() 
       });
       tableHTML += "</table>";
       resultDiv.innerHTML = tableHTML;
-    } else if (data.Response === true) {
+    } else {
+      resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
+    }
+  } catch (error) {
+    console.error(error);
+    resultDiv.innerHTML = "<p>Error searching ICD-10 codes.</p>";
+  }
+}, 400));
+
+// Search by exact code
+document.getElementById("code").addEventListener("change", async function() {
+  const codeInput = this.value.trim();
+  if (!codeInput) return;
+
+  resultDiv.innerHTML = "Searching...";
+
+  try {
+    const url = `http://www.icd10api.com/?code=${encodeURIComponent(codeInput)}&r=json`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.Response === true) {
       resultDiv.innerHTML = `
         <table>
           <tr onclick="selectCode('${data.Name}')"><th>ICD Code</th><td>${data.Name || "-"}</td></tr>
@@ -34,18 +65,13 @@ document.getElementById("searchBtn").addEventListener("click", async function() 
           <tr><th>Valid?</th><td>${data.Valid ? "Yes" : "No"}</td></tr>
         </table>`;
     } else {
-      resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
+      resultDiv.innerHTML = "<p>No matching ICD-10 code found.</p>";
     }
   } catch (error) {
     console.error(error);
-    resultDiv.innerHTML = "<p>Error looking up ICD-10 codes.</p>";
+    resultDiv.innerHTML = "<p>Error looking up ICD-10 code.</p>";
   }
 });
-
-// ------------------ SELECT CODE ------------------
-function selectCode(code) {
-  document.getElementById("selectedCode").value = code;
-}
 
 // ------------------ BILLING CALCULATOR ------------------
 document.getElementById("calcBtn").addEventListener("click", function() {
@@ -57,7 +83,7 @@ document.getElementById("calcBtn").addEventListener("click", function() {
     return;
   }
 
-  const markupRate = 0.20; // 20% markup
+  const markupRate = 0.20;
   const total = cost + (cost * markupRate);
   const selectedCode = document.getElementById("selectedCode").value || "N/A";
 
