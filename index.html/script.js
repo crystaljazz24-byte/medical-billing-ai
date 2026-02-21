@@ -1,41 +1,56 @@
+// ------------------ ICD SEARCH ------------------
+document.getElementById("searchBtn").addEventListener("click", searchICD);
+
 async function searchICD() {
+  const codeInput = document.getElementById("code").value.trim();
+  const specialtyInput = document.getElementById("specialty").value.trim();
+  const ageInput = parseInt(document.getElementById("age").value);
 
-    const code = document.getElementById("icdInput").value.trim();
-    const specialty = document.getElementById("specialtyInput").value.trim();
-    const age = parseInt(document.getElementById("ageInput").value);
+  const resultDiv = document.getElementById("result");
 
-    if (!code || !specialty || isNaN(age)) {
-        document.getElementById("result").innerText = 
-            "Please fill out all fields.";
-        return;
+  try {
+    const response = await fetch("data/icd10.json");
+    const data = await response.json();
+
+    const result = data.find(item =>
+      item.code === codeInput &&
+      item.specialty.toLowerCase() === specialtyInput.toLowerCase() &&
+      ageInput >= item.minAge &&
+      ageInput <= item.maxAge
+    );
+
+    if (result) {
+      resultDiv.innerHTML = `
+        <h3>Match Found</h3>
+        <p><strong>Description:</strong> ${result.description}</p>
+      `;
+    } else {
+      resultDiv.innerHTML = "<p>No matching ICD-10 record found.</p>";
     }
 
-    try {
-        const response = await fetch("./data/icd10.json");
+  } catch (error) {
+    console.error(error);
+    resultDiv.innerHTML = "<p>Error loading ICD-10 data.</p>";
+  }
+}
 
-        if (!response.ok) {
-            throw new Error("File not found");
-        }
 
-        const data = await response.json();
+// ------------------ BILLING CALCULATOR ------------------
+document.getElementById("calcBtn").addEventListener("click", calculateTotal);
 
-        const match = data.find(item =>
-            item.code.toLowerCase() === code.toLowerCase() &&
-            item.specialty.toLowerCase() === specialty.toLowerCase() &&
-            age >= item.minAge &&
-            age <= item.maxAge
-        );
+function calculateTotal() {
+  const cost = parseFloat(document.getElementById("costInput").value);
+  const resultDiv = document.getElementById("totalResult");
 
-        if (match) {
-            document.getElementById("result").innerText =
-                "Description: " + match.description;
-        } else {
-            document.getElementById("result").innerText =
-                "No matching ICD-10 found.";
-        }
+  if (isNaN(cost) || cost <= 0) {
+    resultDiv.innerText = "Please enter a valid cost.";
+    return;
+  }
 
-    } catch (error) {
-        document.getElementById("result").innerText =
-            "Error loading ICD-10 data.";
+  const markupRate = 0.20; // 20% markup
+  const total = cost + (cost * markupRate);
+
+  resultDiv.innerText = "Total with 20% markup: $" + total.toFixed(2);
+}
     }
 }
