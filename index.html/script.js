@@ -1,10 +1,25 @@
+// ------------------ DEMO ICD-10 DATA ------------------
+const demoICDData = [
+  { Code: "J10.1", Name: "Influenza with other respiratory manifestations" },
+  { Code: "I10", Name: "Essential (primary) hypertension" },
+  { Code: "E11.9", Name: "Type 2 diabetes mellitus without complications" },
+  { Code: "R07.9", Name: "Chest pain, unspecified" },
+  { Code: "M54.5", Name: "Low back pain" },
+  { Code: "N39.0", Name: "Urinary tract infection, site not specified" },
+  { Code: "F41.9", Name: "Anxiety disorder, unspecified" },
+  { Code: "K21.9", Name: "Gastro-esophageal reflux disease without esophagitis" },
+  { Code: "H52.4", Name: "Presbyopia" },
+  { Code: "L03.90", Name: "Cellulitis, unspecified" }
+];
+
 // ------------------ SELECT CODE ------------------
 function selectCode(code) {
   document.getElementById("selectedCode").value = code;
 }
 
-// ------------------ ICD SEARCH (CODE + SYMPTOM LIVE) ------------------
+// ------------------ LIVE SEARCH (DEMO DATA) ------------------
 const symptomInput = document.getElementById("symptom");
+const codeInput = document.getElementById("code");
 const resultDiv = document.getElementById("result");
 
 function debounce(func, delay) {
@@ -15,61 +30,47 @@ function debounce(func, delay) {
   };
 }
 
-symptomInput.addEventListener("input", debounce(async function() {
+// Filter function for demo data
+function filterDemoData(query) {
+  const q = query.toLowerCase();
+  return demoICDData.filter(item =>
+    item.Code.toLowerCase().includes(q) || item.Name.toLowerCase().includes(q)
+  );
+}
+
+// Symptom live search (demo)
+symptomInput.addEventListener("input", debounce(function() {
   const query = symptomInput.value.trim();
-  if (query.length < 2) {
-    resultDiv.innerHTML = "";
+  if (query.length < 1) { resultDiv.innerHTML = ""; return; }
+
+  const matches = filterDemoData(query);
+  if (matches.length === 0) {
+    resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
     return;
   }
 
-  resultDiv.innerHTML = "Searching...";
+  let tableHTML = "<table><tr><th>ICD Code</th><th>Description</th></tr>";
+  matches.forEach(item => {
+    tableHTML += `<tr onclick="selectCode('${item.Code}')"><td>${item.Code}</td><td>${item.Name}</td></tr>`;
+  });
+  tableHTML += "</table>";
+  resultDiv.innerHTML = tableHTML;
+}, 300));
 
-  try {
-    const url = `http://www.icd10api.com/?s=${encodeURIComponent(query)}&r=json`;
-    const response = await fetch(url);
-    const data = await response.json();
+// Code exact search (demo)
+codeInput.addEventListener("change", function() {
+  const query = codeInput.value.trim();
+  if (!query) { resultDiv.innerHTML = ""; return; }
 
-    if (Array.isArray(data) && data.length > 0) {
-      let tableHTML = "<table><tr><th>ICD Code</th><th>Description</th></tr>";
-      data.forEach(item => {
-        tableHTML += `<tr onclick="selectCode('${item.Code}')"><td>${item.Code}</td><td>${item.Name}</td></tr>`;
-      });
-      tableHTML += "</table>";
-      resultDiv.innerHTML = tableHTML;
-    } else {
-      resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
-    }
-  } catch (error) {
-    console.error(error);
-    resultDiv.innerHTML = "<p>Error searching ICD-10 codes.</p>";
-  }
-}, 400));
-
-// Search by exact code
-document.getElementById("code").addEventListener("change", async function() {
-  const codeInput = this.value.trim();
-  if (!codeInput) return;
-
-  resultDiv.innerHTML = "Searching...";
-
-  try {
-    const url = `http://www.icd10api.com/?code=${encodeURIComponent(codeInput)}&r=json`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.Response === true) {
-      resultDiv.innerHTML = `
-        <table>
-          <tr onclick="selectCode('${data.Name}')"><th>ICD Code</th><td>${data.Name || "-"}</td></tr>
-          <tr><th>Description</th><td>${data.Description || "-"}</td></tr>
-          <tr><th>Valid?</th><td>${data.Valid ? "Yes" : "No"}</td></tr>
-        </table>`;
-    } else {
-      resultDiv.innerHTML = "<p>No matching ICD-10 code found.</p>";
-    }
-  } catch (error) {
-    console.error(error);
-    resultDiv.innerHTML = "<p>Error looking up ICD-10 code.</p>";
+  const match = demoICDData.find(item => item.Code.toLowerCase() === query.toLowerCase());
+  if (match) {
+    resultDiv.innerHTML = `
+      <table>
+        <tr onclick="selectCode('${match.Code}')"><th>ICD Code</th><td>${match.Code}</td></tr>
+        <tr><th>Description</th><td>${match.Name}</td></tr>
+      </table>`;
+  } else {
+    resultDiv.innerHTML = "<p>No matching ICD-10 code found.</p>";
   }
 });
 
