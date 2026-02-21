@@ -19,5 +19,40 @@
     "specialty": "Endocrinology",
     "minAge": 18,
     "maxAge": 120
+  },
+  {
+    "code": "I10",
+    "description": "Essential (primary) hypertension",
+    "specialty": "Cardiology",
+    "minAge": 18,
+    "maxAge": 120
+  },
+  {
+    "code": "M54.5",
+    "description": "Low back pain",
+    "specialty": "Orthopedics",
+    "minAge": 0,
+    "maxAge": 120
+  },
+  {
+    "code": "F32.9",
+    "description": "Major depressive disorder, single episode, unspecified",
+    "specialty": "Psychiatry",
+    "minAge": 12,
+    "maxAge": 120
+  },
+  {
+    "code": "K21.9",
+    "description": "Gastro-esophageal reflux disease without esophagitis",
+    "specialty": "Gastroenterology",
+    "minAge": 0,
+    "maxAge": 120
+  },
+  {
+    "code": "N39.0",
+    "description": "Urinary tract infection, site not specified",
+    "specialty": "Urology",
+    "minAge": 0,
+    "maxAge": 120
   }
 ]
