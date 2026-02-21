@@ -1,46 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Medical Billing System</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Billing System</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Quick basic styling */
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f8f9fa; }
+    h1 { color: #2c3e50; }
+    input { padding: 8px; margin: 5px 0; width: 200px; }
+    button { padding: 8px 16px; margin: 5px 0; cursor: pointer; }
+    #result, #totalResult { margin-top: 15px; padding: 10px; background: #fff; border: 1px solid #ccc; width: fit-content; }
+    section { margin-bottom: 40px; }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>Medical Billing System</h1>
-</header>
+  <h1>Medical Billing System</h1>
 
-<section class="card">
+  <!-- ICD-10 Lookup Section -->
+  <section>
     <h2>ICD-10 Code Lookup</h2>
+    <label>ICD-10 Code:</label><br>
+    <input id="code" type="text" placeholder="Enter code (ex: J10.1)"><br>
 
-    <label>ICD-10 Code</label>
-    <input type="text" id="icdInput" placeholder="Enter code (ex: J10.1)">
+    <label>Specialty:</label><br>
+    <input id="specialty" type="text" placeholder="Enter specialty"><br>
 
-    <label>Specialty</label>
-    <input type="text" id="specialtyInput" placeholder="Enter specialty">
+    <label>Patient Age:</label><br>
+    <input id="age" type="number" placeholder="Enter age"><br>
 
-    <label>Patient Age</label>
-    <input type="number" id="ageInput" placeholder="Enter age">
+    <button id="searchBtn">Search</button>
 
-    <button onclick="searchICD()">Search</button>
+    <div id="result"></div>
+  </section>
 
-    <div id="result" class="result-box"></div>
-</section>
-
-<section class="card">
+  <!-- Billing Calculator Section -->
+  <section>
     <h2>Billing Calculator</h2>
+    <label>Procedure Cost ($):</label><br>
+    <input id="costInput" type="number" placeholder="Enter procedure cost"><br>
 
-    <label>Procedure Cost ($)</label>
-    <input type="number" id="costInput" placeholder="Enter procedure cost">
+    <button id="calcBtn">Calculate Total</button>
 
-    <button onclick="calculateTotal()">Calculate Total</button>
+    <div id="totalResult"></div>
+  </section>
 
-    <div id="totalResult" class="result-box"></div>
-</section>
-
-<script src="lib/script.js"></script>
-    <script src="script.js"></script>
+  <!-- Script -->
+  <script src="script.js"></script>
 
 </body>
 </html>
