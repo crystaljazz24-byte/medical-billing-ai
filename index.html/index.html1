@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Billing System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+<header>
+    <h1>Medical Billing System</h1>
+</header>
+
+<section class="card">
+    <h2>ICD-10 Code Lookup</h2>
+
+    <label>ICD-10 Code</label>
+    <input type="text" id="icdInput" placeholder="Enter code (ex: J10.1)">
+
+    <label>Specialty</label>
+    <input type="text" id="specialtyInput" placeholder="Enter specialty">
+
+    <label>Patient Age</label>
+    <input type="number" id="ageInput" placeholder="Enter age">
+
+    <button onclick="searchICD()">Search</button>
+
+    <div id="result" class="result-box"></div>
+</section>
+
+<section class="card">
+    <h2>Billing Calculator</h2>
+
+    <label>Procedure Cost ($)</label>
+    <input type="number" id="costInput" placeholder="Enter procedure cost">
+
+    <button onclick="calculateTotal()">Calculate Total</button>
+
+    <div id="totalResult" class="result-box"></div>
+</section>
+
+<script src="lib/billing.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
