@@ -1,4 +1,6 @@
-// ------------------ DEMO ICD-10 DATA ------------------
+// ======================
+// ICD-10 DEMO DATA (works offline / GitHub Pages)
+// ======================
 const demoICDData = [
   { Code: "J10.1", Name: "Influenza with other respiratory manifestations" },
   { Code: "I10", Name: "Essential (primary) hypertension" },
@@ -12,87 +14,197 @@ const demoICDData = [
   { Code: "L03.90", Name: "Cellulitis, unspecified" }
 ];
 
-// ------------------ SELECT CODE ------------------
-function selectCode(code) {
-  document.getElementById("selectedCode").value = code;
+// ======================
+// CPT/HCPCS FEE LOOKUP (CMS PFS)
+// ======================
+// IMPORTANT: Replace this with a REAL dataset endpoint from CMS PFS (Socrata resource endpoint)
+// Example format:
+//   https://pfs.data.cms.gov/resource/abcd-1234.json
+const CMS_PFS_ENDPOINT = "https://pfs.data.cms.gov/resource/XXXX-XXXX.json";
+
+function $(id) {
+  return document.getElementById(id);
 }
 
-// ------------------ ELEMENTS ------------------
-const symptomInput = document.getElementById("symptom");
-const codeInput = document.getElementById("code");
-const resultDiv = document.getElementById("result");
-
-// ------------------ DEBOUNCE ------------------
 function debounce(func, delay) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), delay);
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => func(...args), delay);
   };
 }
 
-// ------------------ RENDER TABLE ------------------
-function renderTable(matches) {
-  if (!matches.length) {
-    resultDiv.innerHTML = "<p>No matching ICD-10 codes found.</p>";
-    return;
-  }
-
-  let html = "<table><tr><th>ICD Code</th><th>Description</th></tr>";
-  matches.forEach(item => {
-    html += `<tr onclick="selectCode('${item.Code}')"><td>${item.Code}</td><td>${item.Name}</td></tr>`;
-  });
-  html += "</table>";
-  resultDiv.innerHTML = html;
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[m]));
 }
 
-// ------------------ LIVE SYMPTOM SEARCH (DEMO) ------------------
-symptomInput.addEventListener(
-  "input",
-  debounce(() => {
-    const query = symptomInput.value.trim().toLowerCase();
-    if (query.length < 1) {
-      resultDiv.innerHTML = "";
-      return;
-    }
+// ======================
+// ICD-10 UI
+// ======================
+const icdCodeInput = $("icdCode");
+const icdQueryInput = $("icdQuery");
+const icdResult = $("icdResult");
+const selectedIcd = $("selectedIcd");
 
-    const matches = demoICDData.filter(item =>
-      item.Code.toLowerCase().includes(query) ||
-      item.Name.toLowerCase().includes(query)
-    );
-
-    renderTable(matches);
-  }, 300)
-);
-
-// ------------------ EXACT CODE SEARCH (DEMO) ------------------
-codeInput.addEventListener("input", () => {
-  const query = codeInput.value.trim().toLowerCase();
-  if (!query) {
-    resultDiv.innerHTML = "";
+function renderIcdTable(matches) {
+  if (!matches.length) {
+    icdResult.innerHTML = "<p>No matching ICD-10 codes found.</p>";
     return;
   }
 
-  const matches = demoICDData.filter(item => item.Code.toLowerCase().includes(query));
-  renderTable(matches);
-});
+  let html = "<table><tr><th>ICD-10 Code</th><th>Description</th></tr>";
+  for (const item of matches) {
+    html += `<tr data-code="${escapeHtml(item.Code)}">
+              <td>${escapeHtml(item.Code)}</td>
+              <td>${escapeHtml(item.Name)}</td>
+            </tr>`;
+  }
+  html += "</table><p class='hint'>Click a row to select the ICD-10 code.</p>";
+  icdResult.innerHTML = html;
 
-// ------------------ BILLING CALCULATOR ------------------
-document.getElementById("calcBtn").addEventListener("click", () => {
-  const cost = parseFloat(document.getElementById("costInput").value);
-  const totalDiv = document.getElementById("totalResult");
+  // Click handler (event delegation)
+  const table = icdResult.querySelector("table");
+  table.addEventListener("click", (e) => {
+    const tr = e.target.closest("tr[data-code]");
+    if (!tr) return;
+    selectedIcd.value = tr.dataset.code;
+  });
+}
 
-  if (isNaN(cost) || cost <= 0) {
-    totalDiv.innerText = "Please enter a valid cost.";
+function filterIcd() {
+  const codeQ = icdCodeInput.value.trim().toLowerCase();
+  const textQ = icdQueryInput.value.trim().toLowerCase();
+
+  // if both empty, show all demo codes
+  if (!codeQ && !textQ) {
+    renderIcdTable(demoICDData);
+    return;
+  }
+
+  const matches = demoICDData.filter(item => {
+    const c = item.Code.toLowerCase();
+    const n = item.Name.toLowerCase();
+    return (codeQ ? c.includes(codeQ) : true) && (textQ ? n.includes(textQ) || c.includes(textQ) : true);
+  });
+
+  renderIcdTable(matches);
+}
+
+// initial render
+renderIcdTable(demoICDData);
+
+// live search
+icdCodeInput.addEventListener("input", debounce(filterIcd, 200));
+icdQueryInput.addEventListener("input", debounce(filterIcd, 200));
+
+// ======================
+// Billing Calculator
+// ======================
+$("calcBtn").addEventListener("click", () => {
+  const cost = parseFloat($("costInput").value);
+  const totalDiv = $("totalResult");
+
+  if (!Number.isFinite(cost) || cost <= 0) {
+    totalDiv.innerHTML = "<p>Please enter a valid cost.</p>";
     return;
   }
 
   const markupRate = 0.20;
   const total = cost + cost * markupRate;
-  const selectedCode = document.getElementById("selectedCode").value || "N/A";
+  const icd = selectedIcd.value || "N/A";
 
   totalDiv.innerHTML = `
-    <p>Total with 20% markup: $${total.toFixed(2)}</p>
-    <p>Selected ICD-10 code: ${selectedCode}</p>
+    <p><strong>Total with 20% markup:</strong> $${total.toFixed(2)}</p>
+    <p><strong>Selected ICD-10 code:</strong> ${escapeHtml(icd)}</p>
   `;
 });
+
+// ======================
+// CPT/HCPCS Fee Lookup (requires CMS_PFS_ENDPOINT)
+// ======================
+$("feeBtn").addEventListener("click", lookupFee);
+
+async function lookupFee() {
+  const code = $("procCode").value.trim().toUpperCase();
+  const units = Math.max(1, parseInt($("units").value || "1", 10));
+  const setting = $("placeSetting").value; // facility | nonfacility
+  const payerMultRaw = $("payerMultiplier").value.trim();
+  const payerMult = payerMultRaw ? parseFloat(payerMultRaw) : null;
+
+  const out = $("feeResult");
+
+  if (!code) {
+    out.innerHTML = "<p>Please enter a CPT/HCPCS code.</p>";
+    return;
+  }
+
+  if (CMS_PFS_ENDPOINT.includes("XXXX-XXXX")) {
+    out.innerHTML = `
+      <p><strong>Setup needed:</strong> Open <code>script.js</code> and replace
+      <code>CMS_PFS_ENDPOINT</code> with a real CMS PFS dataset endpoint.</p>
+      <p>It should look like: <code>https://pfs.data.cms.gov/resource/abcd-1234.json</code></p>
+    `;
+    return;
+  }
+
+  out.innerHTML = "<p>Looking up fee...</p>";
+
+  try {
+    // Many CMS datasets use a field called hcpcs_code. If your dataset uses a different field,
+    // change "hcpcs_code" below to the correct column name.
+    const params = new URLSearchParams({
+      "$limit": "50",
+      "hcpcs_code": code
+    });
+
+    const url = `${CMS_PFS_ENDPOINT}?${params.toString()}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const rows = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) {
+      out.innerHTML = "<p>No fee found for that code in this dataset.</p>";
+      return;
+    }
+
+    // Pick first row. Some datasets return multiple rows per year/locality/modifier.
+    const row = rows[0];
+
+    // Fee field names vary by dataset. These are common guesses.
+    const facilityFee = toNumber(row.facility_fee ?? row.facility_price ?? row.fac_price ?? row.payment_amount);
+    const nonFacilityFee = toNumber(row.nonfacility_fee ?? row.nonfacility_price ?? row.nonfac_price ?? row.payment_amount);
+
+    const base = setting === "facility" ? facilityFee : nonFacilityFee;
+
+    if (!Number.isFinite(base)) {
+      out.innerHTML = `
+        <p>Fee data returned, but the fee column names don’t match yet.</p>
+        <p><strong>Fix:</strong> open this URL in your browser and tell me what the fee fields are:</p>
+        <p><code>${escapeHtml(url)}</code></p>
+      `;
+      return;
+    }
+
+    const medicareTotal = base * units;
+    const payerTotal = payerMult ? medicareTotal * payerMult : null;
+
+    out.innerHTML = `
+      <p><strong>Code:</strong> ${escapeHtml(code)}</p>
+      <p><strong>Base fee (${setting === "facility" ? "Facility" : "Non-Facility"}):</strong> $${base.toFixed(2)}</p>
+      <p><strong>Units:</strong> ${units}</p>
+      <p><strong>Medicare estimate:</strong> $${medicareTotal.toFixed(2)}</p>
+      ${payerTotal !== null ? `<p><strong>Payer estimate (x${payerMult.toFixed(2)}):</strong> $${payerTotal.toFixed(2)}</p>` : ""}
+      <p class="hint">If you want, we can add locality, year, and modifier filters once the dataset is chosen.</p>
+    `;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = "<p>Error looking up fee. Check the browser console for details.</p>";
+  }
+}
+
+function toNumber(v) {
+  const n = typeof v === "string" ? parseFloat(v) : v;
+  return Number.isFinite(n) ? n : NaN;
+}
