@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assure Med Therapist Revenue Optimizer</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -13,30 +13,38 @@
       --card:#ffffff;
       --ink:#2b2b2b;
       --muted:#6b6b6b;
-      --brand:#6a5acd;        /* soft purple */
-      --brand2:#f4b6a6;       /* warm peach */
+      --brand:#6a5acd;
+      --brand2:#f4b6a6;
       --border:#eadfd6;
-      --shadow: 0 10px 25px rgba(22, 17, 40, 0.08);
+      --shadow: 0 12px 28px rgba(22, 17, 40, 0.08);
       --radius: 18px;
+      --focus: 0 0 0 4px rgba(106,90,205,0.14);
+      --goodBg: rgba(72, 187, 120, 0.12);
+      --warnBg: rgba(255, 170, 120, 0.22);
+      --warnInk: #7a3a20;
+      --proBg: rgba(106,90,205,0.10);
+      --proBorder: rgba(106,90,205,0.18);
     }
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1000px 600px at 20% 10%, rgba(244,182,166,0.28), transparent 60%),
-                  radial-gradient(1000px 600px at 80% 0%, rgba(106,90,205,0.18), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1000px 600px at 15% 10%, rgba(244,182,166,0.28), transparent 60%),
+        radial-gradient(1000px 600px at 85% 0%, rgba(106,90,205,0.18), transparent 60%),
+        var(--bg);
       color:var(--ink);
       padding: 28px 16px 60px;
     }
-    .wrap{ max-width: 980px; margin: 0 auto; }
+    .wrap{ max-width: 1040px; margin: 0 auto; }
+
     .topbar{
       display:flex; gap:14px; align-items:center; justify-content:space-between;
       margin-bottom: 18px;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: .2px;
     }
     .logo{
@@ -51,16 +59,15 @@
       background: rgba(255,255,255,0.7);
       border-radius: 999px;
       color: var(--muted);
+      display:flex;
+      gap:8px;
+      align-items:center;
     }
-
-    .hero{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 18px;
-      align-items: stretch;
-      margin: 14px 0 18px;
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:#bbb;
     }
-    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; } }
+    .dot.pro{ background: #4caf50; }
 
     .card{
       background: var(--card);
@@ -69,16 +76,29 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 14px 0 18px;
+    }
+    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; } }
+
     h1{
       margin: 6px 0 8px;
       font-size: 34px;
       line-height: 1.1;
+      letter-spacing: -0.4px;
     }
     .sub{
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.55;
       margin: 0 0 12px;
+      font-size: 14px;
     }
+
     .ctaRow{
       display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
     }
@@ -87,8 +107,11 @@
       cursor:pointer;
       border-radius: 999px;
       padding: 10px 14px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 14px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
     .btnPrimary{
       background: linear-gradient(135deg, var(--brand), var(--brand2));
@@ -98,6 +121,16 @@
       background: transparent;
       border: 1px solid var(--border);
       color: var(--ink);
+    }
+    .btnSoft{
+      background: rgba(106,90,205,0.10);
+      border: 1px solid rgba(106,90,205,0.18);
+      color: #3b2f91;
+    }
+    .btnDanger{
+      background: rgba(220,60,60,0.10);
+      border: 1px solid rgba(220,60,60,0.20);
+      color: #7b1e1e;
     }
 
     .grid{
@@ -113,38 +146,39 @@
       font-size: 13px;
       color: var(--muted);
       margin: 10px 0 6px;
-      font-weight: 600;
+      font-weight: 700;
     }
     input, select{
       width:100%;
       padding: 12px 12px;
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
       font-size: 15px;
       outline:none;
     }
     input:focus, select:focus{
       border-color: rgba(106,90,205,0.6);
-      box-shadow: 0 0 0 4px rgba(106,90,205,0.12);
+      box-shadow: var(--focus);
     }
 
     .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 520px){ .row{ grid-template-columns:1fr; } }
 
     .toggle{
-      display:flex; align-items:center; gap:10px;
+      display:flex; align-items:flex-start; gap:10px;
       padding: 12px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.7);
       border-radius: 14px;
       margin-top: 10px;
     }
-    .toggle input{ width: 18px; height: 18px; }
+    .toggle input{ width: 18px; height: 18px; margin-top: 2px; }
+
     .note{
       font-size: 12px;
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.5;
       margin-top: 10px;
     }
 
@@ -162,27 +196,97 @@
       border-radius: 16px;
       padding: 12px;
     }
-    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 700; }
-    .stat .v{ font-size: 20px; font-weight: 800; margin-top: 6px; }
+    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 800; }
+    .stat .v{ font-size: 20px; font-weight: 900; margin-top: 6px; letter-spacing: -0.2px; }
 
     .divider{
       height:1px; background: var(--border); margin: 14px 0;
     }
+    .mini{ font-size: 12px; color: var(--muted); }
 
-    .mini{
-      font-size: 12px;
-      color: var(--muted);
+    .infoBox{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.68);
+      padding: 12px;
+      border-radius: 16px;
+      margin-top: 12px;
     }
 
     .warn{
-      border: 1px dashed rgba(220, 80, 80, 0.4);
-      background: rgba(255, 230, 230, 0.5);
-      padding: 10px;
+      border: 1px solid rgba(255, 140, 90, 0.55);
+      background: var(--warnBg);
+      padding: 10px 12px;
       border-radius: 14px;
       margin-top: 12px;
-      color: #7c2e2e;
+      color: var(--warnInk);
       font-size: 13px;
       display:none;
+      line-height: 1.45;
+    }
+
+    .good{
+      border: 1px solid rgba(72, 187, 120, 0.25);
+      background: var(--goodBg);
+      padding: 10px 12px;
+      border-radius: 14px;
+      margin-top: 12px;
+      font-size: 13px;
+      display:none;
+      line-height: 1.45;
+    }
+
+    .proBox{
+      border: 1px solid var(--proBorder);
+      background: var(--proBg);
+      padding: 12px;
+      border-radius: 16px;
+      margin-top: 12px;
+    }
+
+    .proLock{
+      position:relative;
+    }
+    .proLock::after{
+      content:"Pro Feature";
+      position:absolute;
+      top:12px;
+      right:12px;
+      font-size:12px;
+      font-weight:800;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--proBorder);
+      color:#3b2f91;
+    }
+
+    .hidden{ display:none !important; }
+
+    .mixTable{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .mixTable th, .mixTable td{
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align:left;
+      font-size: 13px;
+    }
+    .mixTable th{ background: rgba(255,255,255,0.75); }
+    .mixActions{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+    }
+    .pillInputRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 10px;
+      margin-top: 10px;
+      align-items:end;
+    }
+    @media (max-width: 800px){
+      .pillInputRow{ grid-template-columns: 1fr 1fr; }
+      .pillInputRow .btn{ width:100%; justify-content:center; }
     }
 
     footer{
@@ -191,62 +295,90 @@
       color: var(--muted);
       font-size: 12px;
     }
-    a{ color: var(--brand); }
+
+    /* Print styles (for “Save as PDF”) */
+    @media print{
+      body{ background: white; padding:0; }
+      .topbar, .hero, .ctaRow, #printBtn, #downloadBtn, #resetBtn, #demoBtn, #openPayBtn, #unlockBtn, #lockBtn { display:none !important; }
+      .card{ box-shadow:none !important; border: 1px solid #ddd !important; }
+      .wrap{ max-width: 100% !important; }
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="topbar">
       <div class="brand"><div class="logo"></div> Assure Med</div>
-      <div class="pill">Therapist Revenue Optimizer • MVP</div>
+      <div class="pill">
+        <span class="dot" id="proDot"></span>
+        <span id="planLabel">Free</span>
+      </div>
     </div>
 
     <div class="hero">
       <div class="card">
         <h1>Therapist Revenue Optimizer</h1>
         <p class="sub">
-          Estimate your weekly, monthly, and yearly revenue based on session codes and rates.
-          Designed for private practice therapists and mental health billers.
+          Calm, simple revenue projections for mental health services.
+          Model your weekly, monthly, and yearly income — and spot undercoding loss.
         </p>
+
         <div class="ctaRow">
           <button class="btn btnPrimary" id="jumpToCalc">Open Calculator</button>
+          <button class="btn btnSoft" id="demoBtn">Load Demo</button>
           <button class="btn btnGhost" id="resetBtn">Reset</button>
+          <button class="btn btnGhost" id="downloadBtn">Download Summary (CSV)</button>
+          <button class="btn btnGhost" id="printBtn">Print / Save PDF</button>
         </div>
+
+        <div class="proBox">
+          <div style="font-weight:900;">Pro (launch mode)</div>
+          <div class="mini" style="margin-top:6px;">
+            Pro unlocks multi-code weekly mix + undercoding loss estimator.
+            For now, Pro is unlocked by a simple key while you validate demand.
+          </div>
+          <div class="ctaRow" style="margin-top:10px;">
+            <button class="btn btnPrimary" id="openPayBtn">Get Pro</button>
+            <button class="btn btnSoft" id="unlockBtn">Unlock Pro (key)</button>
+            <button class="btn btnDanger hidden" id="lockBtn">Lock Pro</button>
+          </div>
+          <div class="mini" style="margin-top:6px;">
+            Replace the payment link in <code>script.js</code> when you create your Stripe Payment Link.
+          </div>
+        </div>
+
         <p class="note">
-          This tool is for estimates and planning—always follow payer policies and documentation requirements.
+          Planning tool only. Always bill based on documentation/time rules and payer policy. No PHI is stored.
         </p>
       </div>
 
       <div class="card">
-        <div class="mini"><strong>Quick Start</strong></div>
+        <div class="mini"><strong>MVP includes</strong></div>
         <div class="divider"></div>
-        <div class="mini">Try a demo setup:</div>
-        <ul class="mini">
-          <li>Select <strong>90834</strong></li>
-          <li>Rate: <strong>$115</strong></li>
-          <li>Sessions/week: <strong>18</strong></li>
-          <li>Weeks/month: <strong>4.33</strong></li>
+        <ul class="mini" style="margin:0; padding-left:16px; line-height:1.6;">
+          <li>Single CPT projections (common mental health codes)</li>
+          <li>Payer multiplier (optional)</li>
+          <li>Crisis add-on modeling (90840)</li>
+          <li><strong>Pro:</strong> multi-code weekly mix + loss estimator</li>
+          <li>Download CSV + Print/PDF summary</li>
         </ul>
-        <div class="divider"></div>
-        <div class="mini">Then compare 90834 vs 90837 to see undercoding loss.</div>
       </div>
     </div>
 
     <div class="grid" id="calculator">
+      <!-- LEFT: Inputs -->
       <div class="card">
-        <h2 style="margin:0 0 6px;">Calculator</h2>
-        <div class="mini">Select a service, enter your rate, and get projections.</div>
+        <h2 style="margin:0 0 6px;">Single-Code Calculator</h2>
+        <div class="mini">Enter your rate and volume — results update instantly.</div>
 
         <label for="cpt">Session Code</label>
-        <select id="cpt">
-          <option value="90832">90832 — Psychotherapy (30 min)</option>
-          <option value="90834" selected>90834 — Psychotherapy (45 min)</option>
-          <option value="90837">90837 — Psychotherapy (60 min)</option>
-          <option value="90853">90853 — Group psychotherapy</option>
-          <option value="90791">90791 — Psych diagnostic eval (no med)</option>
-          <option value="90792">90792 — Psych diagnostic eval (with med)</option>
-          <option value="90839">90839 — Crisis psychotherapy (first 60 min)</option>
-        </select>
+        <select id="cpt"></select>
+
+        <div class="infoBox" id="cptInfo">
+          <div style="font-weight:900;" id="cptTitle">—</div>
+          <div class="mini" id="cptDesc" style="margin-top:6px;">—</div>
+        </div>
 
         <div class="row">
           <div>
@@ -266,39 +398,87 @@
           </div>
           <div>
             <label for="payerMultiplier">Payer multiplier (optional)</label>
-            <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.20" />
+            <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.10" />
           </div>
         </div>
 
-        <div class="toggle">
+        <div class="toggle hidden" id="addonWrap">
           <input id="addon90840" type="checkbox" />
           <div>
-            <div style="font-weight:700;">Add-on: 90840 (each additional 30 min crisis)</div>
-            <div class="mini">Only relevant if you’re billing 90839 crisis sessions.</div>
+            <div style="font-weight:900;">Add-on: 90840 (each additional 30 min crisis)</div>
+            <div class="mini">Only shown when your selected code is 90839.</div>
           </div>
         </div>
 
-        <div class="row">
-          <div>
-            <label for="crisisRate">Add-on rate (90840) ($)</label>
-            <input id="crisisRate" type="number" step="0.01" placeholder="e.g., 45" />
-          </div>
-          <div>
-            <label for="crisisSessionsPerWeek">Crisis sessions/week (optional)</label>
-            <input id="crisisSessionsPerWeek" type="number" step="1" placeholder="e.g., 2" />
+        <div id="addonFields" class="hidden">
+          <div class="row">
+            <div>
+              <label for="crisisRate">Add-on rate (90840) ($)</label>
+              <input id="crisisRate" type="number" step="0.01" placeholder="e.g., 45" />
+            </div>
+            <div>
+              <label for="crisisSessionsPerWeek">Crisis add-ons/week</label>
+              <input id="crisisSessionsPerWeek" type="number" step="1" placeholder="e.g., 2" />
+            </div>
           </div>
         </div>
 
         <div class="warn" id="warnBox"></div>
+        <div class="good" id="goodBox"></div>
+
+        <div class="divider"></div>
+
+        <h2 style="margin:0 0 6px;">Weekly Mix (Pro)</h2>
+        <div class="mini">Add multiple codes for a real weekly schedule (example: 12×90834 + 6×90837).</div>
+
+        <div id="proMixSection" class="proLock">
+          <div class="pillInputRow">
+            <div>
+              <label for="mixCode">Code</label>
+              <select id="mixCode"></select>
+            </div>
+            <div>
+              <label for="mixRate">Rate ($)</label>
+              <input id="mixRate" type="number" step="0.01" placeholder="e.g., 115" />
+            </div>
+            <div>
+              <label for="mixCount">Count/week</label>
+              <input id="mixCount" type="number" step="1" placeholder="e.g., 12" />
+            </div>
+            <button class="btn btnPrimary" id="addMixBtn">Add</button>
+          </div>
+
+          <div class="mixActions">
+            <button class="btn btnGhost" id="clearMixBtn">Clear Mix</button>
+          </div>
+
+          <table class="mixTable" id="mixTable">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Rate</th>
+                <th>Count/week</th>
+                <th>Weekly</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="mixTbody"></tbody>
+          </table>
+
+          <div class="infoBox" id="mixTotals">
+            <div class="mini">Add codes to see weekly/monthly/yearly totals.</div>
+          </div>
+        </div>
 
         <p class="note">
-          Tip: If you have multiple payers, use the multiplier as a blended average (example: 1.10).
+          Tip: Your multiplier applies to both single-code and mix totals.
         </p>
       </div>
 
+      <!-- RIGHT: Results -->
       <div class="card">
         <h2 style="margin:0 0 6px;">Results</h2>
-        <div class="mini">Updates automatically as you type.</div>
+        <div class="mini">Projections based on your inputs.</div>
 
         <div class="stats">
           <div class="stat">
@@ -321,50 +501,50 @@
 
         <div class="divider"></div>
 
-        <h3 style="margin:0 0 6px;">Undercoding Loss (90834 vs 90837)</h3>
-        <div class="mini">
-          If you typically provide 60-minute sessions but bill 90834 (45 min), this estimates lost revenue.
-        </div>
+        <div id="proCompareSection" class="proLock">
+          <h3 style="margin:0 0 6px;">Undercoding Loss (90834 vs 90837) (Pro)</h3>
+          <div class="mini">
+            If you often deliver 60-minute sessions but bill 90834, estimate the difference here.
+          </div>
 
-        <div class="row" style="margin-top:10px;">
-          <div>
-            <label for="rate90834">Rate for 90834 ($)</label>
-            <input id="rate90834" type="number" step="0.01" placeholder="e.g., 115" />
+          <div class="row" style="margin-top:10px;">
+            <div>
+              <label for="rate90834">Rate for 90834 ($)</label>
+              <input id="rate90834" type="number" step="0.01" placeholder="e.g., 115" />
+            </div>
+            <div>
+              <label for="rate90837">Rate for 90837 ($)</label>
+              <input id="rate90837" type="number" step="0.01" placeholder="e.g., 150" />
+            </div>
           </div>
-          <div>
-            <label for="rate90837">Rate for 90837 ($)</label>
-            <input id="rate90837" type="number" step="0.01" placeholder="e.g., 150" />
-          </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label for="sessionsForCompare">Sessions/week (for comparison)</label>
-            <input id="sessionsForCompare" type="number" step="1" placeholder="e.g., 18" />
+          <div class="row">
+            <div>
+              <label for="sessionsForCompare">Sessions/week (comparison)</label>
+              <input id="sessionsForCompare" type="number" step="1" placeholder="e.g., 18" />
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <button class="btn btnPrimary" id="calcCompare" style="width:100%;">Calculate</button>
+            </div>
           </div>
-          <div>
-            <label>&nbsp;</label>
-            <button class="btn btnPrimary" id="calcCompare" style="width:100%;">Calculate Loss</button>
-          </div>
-        </div>
 
-        <div class="box" style="border-radius:16px; margin-top:12px;" id="compareBox">
-          <div class="mini">Enter both rates and sessions/week, then click “Calculate Loss”.</div>
+          <div class="infoBox" id="compareBox">
+            <div class="mini">Enter both rates + sessions/week, then click “Calculate”.</div>
+          </div>
         </div>
 
         <p class="note">
-          Next (Pro): downloadable summaries, multi-payer blending, and scenario presets.
+          Print/PDF includes your single-code results + mix totals + loss estimate (if filled).
         </p>
       </div>
     </div>
 
     <footer>
-      © <span id="yr"></span> Assure Med • Built for planning & estimates •
-      <span class="mini">No PHI stored</span>
+      © <span id="yr"></span> Assure Med • Built for planning & estimates • No PHI stored
     </footer>
   </div>
 
   <script src="script.js"></script>
 </body>
-</html>
 </html>
