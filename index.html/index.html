@@ -3,124 +3,368 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Medical Billing System</title>
+  <title>Assure Med Therapist Revenue Optimizer</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: 'Roboto', sans-serif; background:#f4f6f8; margin:0; padding:0 20px; color:#333; }
-    h1 { text-align:center; margin-top:40px; color:#1f3c88; }
-    h2 { color:#1f3c88; margin-bottom:15px; }
-
-    section {
-      background:#fff; border-radius:10px; padding:25px;
-      margin:30px auto; max-width:760px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    :root{
+      --bg:#fbf7f3;
+      --card:#ffffff;
+      --ink:#2b2b2b;
+      --muted:#6b6b6b;
+      --brand:#6a5acd;        /* soft purple */
+      --brand2:#f4b6a6;       /* warm peach */
+      --border:#eadfd6;
+      --shadow: 0 10px 25px rgba(22, 17, 40, 0.08);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 600px at 20% 10%, rgba(244,182,166,0.28), transparent 60%),
+                  radial-gradient(1000px 600px at 80% 0%, rgba(106,90,205,0.18), transparent 60%),
+                  var(--bg);
+      color:var(--ink);
+      padding: 28px 16px 60px;
+    }
+    .wrap{ max-width: 980px; margin: 0 auto; }
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      margin-bottom: 18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: var(--shadow);
+    }
+    .pill{
+      font-size: 12px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.7);
+      border-radius: 999px;
+      color: var(--muted);
     }
 
-    input, select {
-      width: calc(100% - 20px);
-      padding: 10px; margin: 8px 0;
-      border: 1px solid #ccc; border-radius: 5px;
-      font-size: 16px;
-      background: #fff;
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 14px 0 18px;
+    }
+    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; } }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    h1{
+      margin: 6px 0 8px;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+    .sub{
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 12px;
+    }
+    .ctaRow{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+    }
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .btnPrimary{
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: white;
+    }
+    .btnGhost{
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
     }
 
-    button {
-      background-color:#1f3c88; color:#fff; border:none;
-      border-radius:5px; padding:10px 20px;
-      font-size:16px; cursor:pointer; margin-top:10px;
-      transition: background-color 0.3s;
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
     }
-    button:hover { background-color:#163066; }
+    @media (max-width: 900px){ .grid{ grid-template-columns:1fr; } }
 
-    .box {
-      margin-top: 18px; padding: 15px;
-      background:#f9f9f9; border-radius:8px; border:1px solid #ddd;
+    label{
+      display:block;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 10px 0 6px;
+      font-weight: 600;
+    }
+    input, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.9);
+      font-size: 15px;
+      outline:none;
+    }
+    input:focus, select:focus{
+      border-color: rgba(106,90,205,0.6);
+      box-shadow: 0 0 0 4px rgba(106,90,205,0.12);
     }
 
-    table { border-collapse:collapse; width:100%; margin-top:12px; }
-    th, td { border:1px solid #ddd; padding:10px; text-align:left; }
-    th { background-color:#1f3c88; color:white; }
-    tr:nth-child(even) { background-color:#f2f2f2; }
-    tr:hover { background-color:#e6f0ff; cursor:pointer; }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px){ .row{ grid-template-columns:1fr; } }
 
-    .hint { font-size: 13px; opacity: 0.85; margin-top: 10px; line-height: 1.4; }
-    .row { display:flex; gap: 12px; flex-wrap: wrap; }
-    .row > div { flex: 1 1 240px; }
-
-    @media (max-width: 768px) {
-      section { margin:20px 10px; padding:20px; }
-      input, select { width: 100%; }
+    .toggle{
+      display:flex; align-items:center; gap:10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.7);
+      border-radius: 14px;
+      margin-top: 10px;
     }
+    .toggle input{ width: 18px; height: 18px; }
+    .note{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 520px){ .stats{ grid-template-columns:1fr; } }
+
+    .stat{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.65);
+      border-radius: 16px;
+      padding: 12px;
+    }
+    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 700; }
+    .stat .v{ font-size: 20px; font-weight: 800; margin-top: 6px; }
+
+    .divider{
+      height:1px; background: var(--border); margin: 14px 0;
+    }
+
+    .mini{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .warn{
+      border: 1px dashed rgba(220, 80, 80, 0.4);
+      background: rgba(255, 230, 230, 0.5);
+      padding: 10px;
+      border-radius: 14px;
+      margin-top: 12px;
+      color: #7c2e2e;
+      font-size: 13px;
+      display:none;
+    }
+
+    footer{
+      margin-top: 18px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    a{ color: var(--brand); }
   </style>
 </head>
-
 <body>
-  <h1>Medical Billing System</h1>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo"></div> Assure Med</div>
+      <div class="pill">Therapist Revenue Optimizer • MVP</div>
+    </div>
 
-  <!-- ICD-10 DEMO LOOKUP -->
-  <section>
-    <h2>ICD-10 Lookup (Demo)</h2>
-
-    <div class="row">
-      <div>
-        <input id="icdCode" type="text" placeholder="Search by ICD-10 code (e.g., J10.1, I10)" />
+    <div class="hero">
+      <div class="card">
+        <h1>Therapist Revenue Optimizer</h1>
+        <p class="sub">
+          Estimate your weekly, monthly, and yearly revenue based on session codes and rates.
+          Designed for private practice therapists and mental health billers.
+        </p>
+        <div class="ctaRow">
+          <button class="btn btnPrimary" id="jumpToCalc">Open Calculator</button>
+          <button class="btn btnGhost" id="resetBtn">Reset</button>
+        </div>
+        <p class="note">
+          This tool is for estimates and planning—always follow payer policies and documentation requirements.
+        </p>
       </div>
-      <div>
-        <input id="icdQuery" type="text" placeholder="Search by symptom/description (e.g., chest pain, flu)" />
+
+      <div class="card">
+        <div class="mini"><strong>Quick Start</strong></div>
+        <div class="divider"></div>
+        <div class="mini">Try a demo setup:</div>
+        <ul class="mini">
+          <li>Select <strong>90834</strong></li>
+          <li>Rate: <strong>$115</strong></li>
+          <li>Sessions/week: <strong>18</strong></li>
+          <li>Weeks/month: <strong>4.33</strong></li>
+        </ul>
+        <div class="divider"></div>
+        <div class="mini">Then compare 90834 vs 90837 to see undercoding loss.</div>
       </div>
     </div>
 
-    <div id="icdResult" class="box"></div>
+    <div class="grid" id="calculator">
+      <div class="card">
+        <h2 style="margin:0 0 6px;">Calculator</h2>
+        <div class="mini">Select a service, enter your rate, and get projections.</div>
 
-    <div class="hint">
-      Demo tip: type <b>chest</b>, <b>flu</b>, <b>back</b>, or a code like <b>J10.1</b>.
-      Click a row to select the ICD-10 code for billing.
-    </div>
-  </section>
-
-  <!-- CPT/HCPCS LOOKUP + FEE CALCULATOR -->
-  <section>
-    <h2>CPT/HCPCS Lookup + Fee Calculator</h2>
-
-    <input id="procCode" type="text" placeholder="Enter CPT/HCPCS code (e.g., 99213, G0439)" />
-
-    <div class="row">
-      <div>
-        <input id="units" type="number" min="1" value="1" placeholder="Units (default 1)" />
-      </div>
-      <div>
-        <select id="placeSetting">
-          <option value="nonfacility" selected>Non-Facility (Office)</option>
-          <option value="facility">Facility (Hospital/ASC)</option>
+        <label for="cpt">Session Code</label>
+        <select id="cpt">
+          <option value="90832">90832 — Psychotherapy (30 min)</option>
+          <option value="90834" selected>90834 — Psychotherapy (45 min)</option>
+          <option value="90837">90837 — Psychotherapy (60 min)</option>
+          <option value="90853">90853 — Group psychotherapy</option>
+          <option value="90791">90791 — Psych diagnostic eval (no med)</option>
+          <option value="90792">90792 — Psych diagnostic eval (with med)</option>
+          <option value="90839">90839 — Crisis psychotherapy (first 60 min)</option>
         </select>
+
+        <div class="row">
+          <div>
+            <label for="rate">Rate per session ($)</label>
+            <input id="rate" type="number" step="0.01" placeholder="e.g., 115" />
+          </div>
+          <div>
+            <label for="sessionsPerWeek">Sessions per week</label>
+            <input id="sessionsPerWeek" type="number" step="1" placeholder="e.g., 18" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="weeksPerMonth">Weeks per month</label>
+            <input id="weeksPerMonth" type="number" step="0.01" value="4.33" />
+          </div>
+          <div>
+            <label for="payerMultiplier">Payer multiplier (optional)</label>
+            <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.20" />
+          </div>
+        </div>
+
+        <div class="toggle">
+          <input id="addon90840" type="checkbox" />
+          <div>
+            <div style="font-weight:700;">Add-on: 90840 (each additional 30 min crisis)</div>
+            <div class="mini">Only relevant if you’re billing 90839 crisis sessions.</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="crisisRate">Add-on rate (90840) ($)</label>
+            <input id="crisisRate" type="number" step="0.01" placeholder="e.g., 45" />
+          </div>
+          <div>
+            <label for="crisisSessionsPerWeek">Crisis sessions/week (optional)</label>
+            <input id="crisisSessionsPerWeek" type="number" step="1" placeholder="e.g., 2" />
+          </div>
+        </div>
+
+        <div class="warn" id="warnBox"></div>
+
+        <p class="note">
+          Tip: If you have multiple payers, use the multiplier as a blended average (example: 1.10).
+        </p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 6px;">Results</h2>
+        <div class="mini">Updates automatically as you type.</div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="k">Revenue per session</div>
+            <div class="v" id="revPerSession">$0.00</div>
+          </div>
+          <div class="stat">
+            <div class="k">Weekly revenue</div>
+            <div class="v" id="revWeekly">$0.00</div>
+          </div>
+          <div class="stat">
+            <div class="k">Monthly revenue</div>
+            <div class="v" id="revMonthly">$0.00</div>
+          </div>
+          <div class="stat">
+            <div class="k">Yearly revenue</div>
+            <div class="v" id="revYearly">$0.00</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="margin:0 0 6px;">Undercoding Loss (90834 vs 90837)</h3>
+        <div class="mini">
+          If you typically provide 60-minute sessions but bill 90834 (45 min), this estimates lost revenue.
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label for="rate90834">Rate for 90834 ($)</label>
+            <input id="rate90834" type="number" step="0.01" placeholder="e.g., 115" />
+          </div>
+          <div>
+            <label for="rate90837">Rate for 90837 ($)</label>
+            <input id="rate90837" type="number" step="0.01" placeholder="e.g., 150" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="sessionsForCompare">Sessions/week (for comparison)</label>
+            <input id="sessionsForCompare" type="number" step="1" placeholder="e.g., 18" />
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button class="btn btnPrimary" id="calcCompare" style="width:100%;">Calculate Loss</button>
+          </div>
+        </div>
+
+        <div class="box" style="border-radius:16px; margin-top:12px;" id="compareBox">
+          <div class="mini">Enter both rates and sessions/week, then click “Calculate Loss”.</div>
+        </div>
+
+        <p class="note">
+          Next (Pro): downloadable summaries, multi-payer blending, and scenario presets.
+        </p>
       </div>
     </div>
 
-    <input id="payerMultiplier" type="number" step="0.01" placeholder="Payer multiplier (optional, e.g., 1.25 for 125%)" />
-
-    <button id="feeBtn">Lookup Fee</button>
-
-    <div id="feeResult" class="box"></div>
-
-    <div class="hint">
-      Note: Full CPT descriptions require an AMA license. This tool is designed to estimate fees using CMS PFS data once you set the CMS endpoint in <code>script.js</code>.
-    </div>
-  </section>
-
-  <!-- BILLING CALCULATOR -->
-  <section>
-    <h2>Billing Calculator</h2>
-
-    <input id="costInput" type="number" placeholder="Enter procedure cost ($)" />
-    <input id="selectedIcd" type="text" placeholder="Selected ICD-10 code" readonly />
-
-    <button id="calcBtn">Calculate Total</button>
-
-    <div id="totalResult" class="box"></div>
-  </section>
+    <footer>
+      © <span id="yr"></span> Assure Med • Built for planning & estimates •
+      <span class="mini">No PHI stored</span>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
+</html>
 </html>
