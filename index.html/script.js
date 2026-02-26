@@ -5,7 +5,7 @@ const PRO_FLAG_KEY = "assuremed_isPro";
 const PRO_KEY = "ASSUREMED-PRO";
 
 // Put your Stripe Payment Link here
-const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/abc123xyz";
+const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/cNi4gzgMDavS0EJ68u8IU01";
 
 // --- Catalog (safe labels, not official AMA CPT descriptors) ---
 const CODES = [
