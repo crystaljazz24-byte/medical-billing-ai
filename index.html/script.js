@@ -5,7 +5,7 @@ const PRO_KEY = "ASSUREMED-PRO"; // simple launch-key (replace later with real a
 const PRO_FLAG_KEY = "assuremed_isPro";
 
 // Put your Stripe Payment Link here (when you create it)
-const STRIPE_PAYMENT_LINK = "PASTE_YOUR_STRIPE_PAYMENT_LINK_HERE";
+const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/cNi4gzgMDavS0EJ68u8IU01";
 
 const CPTS = [
   { code:"90832", title:"90832 — Psychotherapy (30 min)", desc:"Individual psychotherapy, 30 minutes." },
