@@ -1,585 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assure Med Therapist Revenue Optimizer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assure Med Therapist Revenue Optimizer</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#fbf7f3;
-      --card:#ffffff;
-      --ink:#2b2b2b;
-      --muted:#6b6b6b;
-      --brand:#6a5acd;
-      --brand2:#f4b6a6;
-      --border:#eadfd6;
-      --shadow: 0 12px 28px rgba(22, 17, 40, 0.08);
-      --radius: 18px;
-      --focus: 0 0 0 4px rgba(106,90,205,0.14);
-      --goodBg: rgba(72, 187, 120, 0.12);
-      --warnBg: rgba(255, 170, 120, 0.22);
-      --warnInk: #7a3a20;
-      --proBg: rgba(106,90,205,0.10);
-      --proBorder: rgba(106,90,205,0.18);
-      --soft:#ffffffb3;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1000px 600px at 15% 10%, rgba(244,182,166,0.28), transparent 60%),
-        radial-gradient(1000px 600px at 85% 0%, rgba(106,90,205,0.18), transparent 60%),
-        var(--bg);
-      color:var(--ink);
-      padding: 28px 16px 60px;
-    }
-    .wrap{ max-width: 1080px; margin: 0 auto; }
-
-    .topbar{
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
-      margin-bottom: 18px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight: 900;
-      letter-spacing: .2px;
-    }
-    .logo{
-      width:38px; height:38px; border-radius: 14px;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      box-shadow: var(--shadow);
-    }
-    .pill{
-      font-size: 12px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.7);
-      border-radius: 999px;
-      color: var(--muted);
-      display:flex;
-      gap:8px;
-      align-items:center;
-      white-space:nowrap;
-    }
-    .dot{ width:8px;height:8px;border-radius:999px; background:#bbb; }
-    .dot.pro{ background: #4caf50; }
-
-    .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-
-    .hero{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items: stretch;
-      margin: 14px 0 18px;
-    }
-    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; } }
-
-    h1{
-      margin: 6px 0 8px;
-      font-size: 34px;
-      line-height: 1.1;
-      letter-spacing: -0.4px;
-    }
-    .sub{
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0 0 12px;
-      font-size: 14px;
-    }
-
-    .ctaRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
-    .btn{
-      border:0; cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 800;
-      font-size: 14px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .btnPrimary{ background: linear-gradient(135deg, var(--brand), var(--brand2)); color: white; }
-    .btnGhost{ background: transparent; border: 1px solid var(--border); color: var(--ink); }
-    .btnSoft{ background: rgba(106,90,205,0.10); border: 1px solid rgba(106,90,205,0.18); color: #3b2f91; }
-    .btnDanger{ background: rgba(220,60,60,0.10); border: 1px solid rgba(220,60,60,0.20); color: #7b1e1e; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-    @media (max-width: 900px){ .grid{ grid-template-columns:1fr; } }
-
-    label{
-      display:block;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 10px 0 6px;
-      font-weight: 800;
-    }
-    input, select, textarea{
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.92);
-      font-size: 15px;
-      outline:none;
-      font-family: inherit;
-    }
-    textarea{ min-height: 86px; resize: vertical; }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(106,90,205,0.6);
-      box-shadow: var(--focus);
-    }
-
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .row3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    @media (max-width: 720px){ .row, .row3{ grid-template-columns:1fr; } }
-
-    .note{ font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 10px; }
-    .divider{ height:1px; background: var(--border); margin: 14px 0; }
-    .mini{ font-size: 12px; color: var(--muted); }
-
-    .infoBox{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.68);
-      padding: 12px;
-      border-radius: 16px;
-      margin-top: 12px;
-    }
-
-    .warn{
-      border: 1px solid rgba(255, 140, 90, 0.55);
-      background: var(--warnBg);
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-      color: var(--warnInk);
-      font-size: 13px;
-      display:none;
-      line-height: 1.45;
-    }
-    .good{
-      border: 1px solid rgba(72, 187, 120, 0.25);
-      background: var(--goodBg);
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-      font-size: 13px;
-      display:none;
-      line-height: 1.45;
-    }
-
-    .proBox{
-      border: 1px solid var(--proBorder);
-      background: var(--proBg);
-      padding: 12px;
-      border-radius: 16px;
-      margin-top: 12px;
-    }
-    .proLock{ position:relative; }
-    .proLock::after{
-      content:"Pro Feature";
-      position:absolute;
-      top:12px;
-      right:12px;
-      font-size:12px;
-      font-weight:900;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,0.75);
-      border: 1px solid var(--proBorder);
-      color:#3b2f91;
-    }
-    .hidden{ display:none !important; }
-
-    .stats{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    @media (max-width: 520px){ .stats{ grid-template-columns:1fr; } }
-    .stat{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.65);
-      border-radius: 16px;
-      padding: 12px;
-    }
-    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 900; }
-    .stat .v{ font-size: 20px; font-weight: 900; margin-top: 6px; letter-spacing: -0.2px; }
-
-    .mixTable{ width:100%; border-collapse: collapse; margin-top: 10px; }
-    .mixTable th, .mixTable td{ border: 1px solid var(--border); padding: 10px; text-align:left; font-size: 13px; }
-    .mixTable th{ background: rgba(255,255,255,0.75); }
-    .mixActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
-
-    .mixRow{
-      display:grid;
-      grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
-      gap: 10px;
-      margin-top: 10px;
-      align-items:end;
-    }
-    @media (max-width: 900px){
-      .mixRow{ grid-template-columns: 1fr 1fr; }
-      .mixRow .btn{ width:100%; justify-content:center; }
-    }
-
-    .reportCard{
-      border: 1px solid var(--border);
-      background: var(--soft);
-      border-radius: 16px;
-      padding: 14px;
-      margin-top: 12px;
-    }
-    .reportHeader{
-      display:flex; justify-content:space-between; gap: 12px; flex-wrap:wrap;
-      padding-bottom: 10px; border-bottom: 1px dashed var(--border);
-      margin-bottom: 10px;
-    }
-    .reportHeader .t{
-      font-weight: 900;
-      letter-spacing: .2px;
-    }
-    .kv{ display:grid; grid-template-columns: 140px 1fr; gap: 8px 12px; }
-    @media (max-width: 520px){ .kv{ grid-template-columns:1fr; } }
-    .kv .k{ color: var(--muted); font-size: 12px; font-weight: 900; }
-    .kv .v{ font-weight: 700; }
-
-    footer{ margin-top: 18px; text-align:center; color: var(--muted); font-size: 12px; }
-
-    /* Print styles */
-    @media print{
-      body{ background: white; padding:0; }
-      .topbar, .hero, #downloadBtn, #resetBtn, #demoBtn, #openPayBtn, #unlockBtn, #lockBtn { display:none !important; }
-      .card{ box-shadow:none !important; border: 1px solid #ddd !important; }
-      .wrap{ max-width: 100% !important; }
-      #printBtn{ display:none !important; }
-    }
-  </style>
+<style>
+body { font-family: Arial, sans-serif; padding:20px; background:#f8f8f8; }
+.card { background:white; padding:20px; border-radius:8px; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
+label { display:block; margin-top:10px; font-weight:bold; }
+input, select { width:100%; padding:8px; margin-top:4px; }
+button { margin-top:15px; padding:10px 15px; cursor:pointer; }
+h2 { margin-top:0; }
+.summary { font-size:18px; margin-top:10px; }
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand"><div class="logo"></div> Assure Med</div>
-      <div class="pill">
-        <span class="dot" id="proDot"></span>
-        <span id="planLabel">Free</span>
-      </div>
-    </div>
 
-    <div class="hero">
-      <div class="card">
-        <h1>Therapist Revenue Optimizer</h1>
-        <p class="sub">
-          Session-level revenue estimates with patient/session headers, unit helpers, and a GA–Atlanta Medicare baseline workflow (you paste CMS values once).
-        </p>
+<div class="card">
+<h2>Session Sheet</h2>
 
-        <div class="ctaRow">
-          <button class="btn btnPrimary" id="jumpToCalc">Open Calculator</button>
-          <button class="btn btnSoft" id="demoBtn">Load Demo</button>
-          <button class="btn btnGhost" id="resetBtn">Reset</button>
-          <button class="btn btnGhost" id="downloadBtn">Download Summary (CSV)</button>
-          <button class="btn btnGhost" id="printBtn">Print / Save PDF</button>
-        </div>
+<label>Patient Name</label>
+<input id="patientName">
 
-        <div class="proBox">
-          <div style="font-weight:900;">Assure Med Pro (launch mode)</div>
-          <div class="mini" style="margin-top:6px;">
-            Pro unlocks multi-code weekly mix + undercoding estimator + fee table import/export.
-          </div>
-          <div class="ctaRow" style="margin-top:10px;">
-            <button class="btn btnPrimary" id="openPayBtn">Get Assure Med Pro</button>
-            <button class="btn btnSoft" id="unlockBtn">Unlock Pro (key)</button>
-            <button class="btn btnDanger hidden" id="lockBtn">Lock Pro</button>
-          </div>
-          <div class="mini" style="margin-top:6px;">
-            Add your Stripe payment link in <code>script.js</code> (STRIPE_PAYMENT_LINK).
-          </div>
-        </div>
+<label>DOB</label>
+<input id="patientDob" type="date">
 
-        <p class="note">
-          Planning tool only. No PHI is stored by Assure Med unless you choose to save locally in your browser. Don’t enter sensitive identifiers.
-        </p>
-      </div>
+<label>Date / Time of Service</label>
+<input id="dosDateTime" type="datetime-local">
 
-      <div class="card">
-        <div class="mini"><strong>MVP includes</strong></div>
-        <div class="divider"></div>
-        <ul class="mini" style="margin:0; padding-left:16px; line-height:1.7;">
-          <li>Patient/session header: name, DOB, DOS date+time</li>
-          <li>Unit helper (minutes → units) for time-based codes</li>
-          <li>Printable session sheet (Save as PDF)</li>
-          <li><strong>Pro:</strong> weekly mix + undercoding estimator</li>
-          <li><strong>Pro:</strong> import/export GA 2026 baseline fee table JSON</li>
-        </ul>
-      </div>
-    </div>
+<label>Patient Email</label>
+<input id="patientEmail" type="email">
 
-    <div class="grid" id="calculator">
-      <!-- LEFT -->
-      <div class="card">
-        <h2 style="margin:0 0 6px;">Session Sheet</h2>
-        <div class="mini">Tie each estimate to a patient + date/time of service.</div>
+<label>Bill Due Date</label>
+<input id="billDueDate" type="date">
 
-        <div class="row3">
-          <div>
-            <label for="patientName">Patient name</label>
-            <input id="patientName" placeholder="e.g., Jane Doe" />
-          </div>
-          <div>
-            <label for="patientDob">DOB</label>
-            <input id="patientDob" type="date" />
-          </div>
-          <div>
-            <label for="dosDateTime">Date/time of service</label>
-            <input id="dosDateTime" type="datetime-local" />
-          </div>
-        </div>
+<label>Provider Name</label>
+<input id="providerName" placeholder="Assure Med">
 
-        <label for="note">Internal note (optional)</label>
-        <textarea id="note" placeholder="e.g., payer, provider, location, or session note (avoid PHI)"></textarea>
+<hr>
 
-        <div class="divider"></div>
+<label>Service Code</label>
+<input id="code" placeholder="e.g., 90834">
 
-        <label for="code">Code</label>
-        <select id="code"></select>
+<label>Rate ($)</label>
+<input id="rate" type="number">
 
-        <div class="infoBox">
-          <div style="font-weight:900;" id="codeTitle">—</div>
-          <div class="mini" id="codeMeta" style="margin-top:6px;">—</div>
-        </div>
+<label>Count (per week)</label>
+<input id="count" type="number">
 
-        <div class="row">
-          <div>
-            <label for="rate">Rate ($)</label>
-            <input id="rate" type="number" step="0.01" placeholder="e.g., 115" />
-          </div>
-          <div>
-            <label id="countLabel" for="count">Count</label>
-            <input id="count" type="number" step="1" placeholder="e.g., 1" />
-          </div>
-        </div>
+<label>Units</label>
+<input id="units" type="number" value="1">
 
-        <div class="row">
-          <div id="minutesWrap" class="hidden">
-            <label for="minutes">Minutes per service</label>
-            <input id="minutes" type="number" step="1" placeholder="e.g., 60" />
-            <div class="mini" id="minutesHint" style="margin-top:6px;"></div>
-          </div>
-          <div id="unitsWrap" class="hidden">
-            <label for="units">Units</label>
-            <input id="units" type="number" step="0.25" placeholder="auto" />
-            <div class="mini" id="unitsHint" style="margin-top:6px;"></div>
-          </div>
-        </div>
+<label>Payer Multiplier (optional)</label>
+<input id="payerMultiplier" type="number" step="0.01">
 
-        <div class="row">
-          <div>
-            <label for="weeksPerMonth">Weeks per month</label>
-            <input id="weeksPerMonth" type="number" step="0.01" value="4.33" />
-          </div>
-          <div>
-            <label for="payerMultiplier">Payer multiplier (optional)</label>
-            <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.10" />
-          </div>
-        </div>
+<button id="calculateBtn">Calculate</button>
+<button id="emailBillBtn">Email Bill</button>
 
-        <div class="proBox">
-          <div style="font-weight:900;">CMS Baseline (2026 • GA – Atlanta)</div>
-          <div class="mini" style="margin-top:6px;">
-            Paste GA–Atlanta amounts once (facility/non-facility). Then “Load baseline” fills the Rate.
-          </div>
+<div class="summary" id="summary"></div>
 
-          <div class="row">
-            <div>
-              <label for="cmsSetting">Setting</label>
-              <select id="cmsSetting">
-                <option value="nonfacility">Non-facility (office)</option>
-                <option value="facility">Facility (hospital/ASC)</option>
-              </select>
-            </div>
-            <div style="display:flex;align-items:end;gap:10px;">
-              <button class="btn btnSoft" id="loadCmsRateBtn" style="width:100%;justify-content:center;">Load 2026 GA–Atlanta baseline</button>
-            </div>
-          </div>
+</div>
 
-          <div class="ctaRow" style="margin-top:10px;">
-            <button class="btn btnGhost" id="exportFeesBtn">Export fee table (JSON)</button>
-            <button class="btn btnGhost" id="importFeesBtn">Import fee table (JSON)</button>
-          </div>
-
-          <input id="importFile" type="file" accept="application/json" class="hidden" />
-          <div class="mini" style="margin-top:8px;">
-            Pro tip: Keep your exported JSON in your repo so you don’t retype.
-          </div>
-        </div>
-
-        <div class="warn" id="warnBox"></div>
-        <div class="good" id="goodBox"></div>
-
-        <div class="divider"></div>
-
-        <h2 style="margin:0 0 6px;">Weekly Mix (Pro)</h2>
-        <div class="mini">Multiple codes + units (example: 12×90834 + 10×97153 with 4 units).</div>
-
-        <div id="proMixSection" class="proLock">
-          <div class="mixRow">
-            <div>
-              <label for="mixCode">Code</label>
-              <select id="mixCode"></select>
-            </div>
-            <div>
-              <label for="mixRate">Rate ($)</label>
-              <input id="mixRate" type="number" step="0.01" placeholder="e.g., 115" />
-            </div>
-            <div>
-              <label for="mixCount">Count/week</label>
-              <input id="mixCount" type="number" step="1" placeholder="e.g., 12" />
-            </div>
-            <div>
-              <label for="mixUnits">Units</label>
-              <input id="mixUnits" type="number" step="0.25" placeholder="e.g., 1" />
-              <div class="mini" id="mixUnitsHint" style="margin-top:6px;"></div>
-            </div>
-            <button class="btn btnPrimary" id="addMixBtn">Add</button>
-          </div>
-
-          <div class="mixActions">
-            <button class="btn btnGhost" id="clearMixBtn">Clear Mix</button>
-          </div>
-
-          <table class="mixTable" id="mixTable">
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Rate</th>
-                <th>Count/week</th>
-                <th>Units</th>
-                <th>Weekly</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="mixTbody"></tbody>
-          </table>
-
-          <div class="infoBox" id="mixTotals">
-            <div class="mini">Add codes to see totals.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div class="card">
-        <h2 style="margin:0 0 6px;">Assure Med Session Summary</h2>
-        <div class="mini">Printable patient/session sheet.</div>
-
-        <div class="reportCard" id="reportCard">
-          <div class="reportHeader">
-            <div>
-              <div class="t">Assure Med Therapist Revenue Optimizer</div>
-              <div class="mini">Session Sheet</div>
-            </div>
-            <div class="mini" id="generatedAt">Generated: —</div>
-          </div>
-
-          <div class="kv">
-            <div class="k">Patient</div><div class="v" id="rPatient">—</div>
-            <div class="k">DOB</div><div class="v" id="rDob">—</div>
-            <div class="k">DOS</div><div class="v" id="rDos">—</div>
-            <div class="k">Code</div><div class="v" id="rCode">—</div>
-            <div class="k">Rate</div><div class="v" id="rRate">—</div>
-            <div class="k">Count</div><div class="v" id="rCount">—</div>
-            <div class="k">Units</div><div class="v" id="rUnits">—</div>
-            <div class="k">Multiplier</div><div class="v" id="rMult">—</div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="stats">
-            <div class="stat">
-              <div class="k">Revenue per unit</div>
-              <div class="v" id="revPerUnit">$0.00</div>
-            </div>
-            <div class="stat">
-              <div class="k">Weekly</div>
-              <div class="v" id="revWeekly">$0.00</div>
-            </div>
-            <div class="stat">
-              <div class="k">Monthly</div>
-              <div class="v" id="revMonthly">$0.00</div>
-            </div>
-            <div class="stat">
-              <div class="k">Yearly</div>
-              <div class="v" id="revYearly">$0.00</div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="mini"><strong>Note</strong></div>
-          <div class="mini" id="rNote" style="margin-top:6px;white-space:pre-wrap;">—</div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div id="proCompareSection" class="proLock">
-          <h3 style="margin:0 0 6px;">Undercoding Estimator (Pro)</h3>
-          <div class="mini">Compare 90834 vs 90837 at your volume.</div>
-
-          <div class="row" style="margin-top:10px;">
-            <div>
-              <label for="rate90834">Rate 90834 ($)</label>
-              <input id="rate90834" type="number" step="0.01" placeholder="e.g., 115" />
-            </div>
-            <div>
-              <label for="rate90837">Rate 90837 ($)</label>
-              <input id="rate90837" type="number" step="0.01" placeholder="e.g., 150" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="compareSessions">Sessions/week</label>
-              <input id="compareSessions" type="number" step="1" placeholder="e.g., 18" />
-            </div>
-            <div>
-              <label>&nbsp;</label>
-              <button class="btn btnPrimary" id="calcCompare" style="width:100%;">Calculate</button>
-            </div>
-          </div>
-
-          <div class="infoBox" id="compareBox">
-            <div class="mini">Enter rates + sessions/week, then Calculate.</div>
-          </div>
-        </div>
-
-        <p class="note">
-          Print uses this Session Sheet. Use your browser’s “Save as PDF.”
-        </p>
-      </div>
-    </div>
-
-    <footer>
-      © <span id="yr"></span> Assure Med • No PHI stored
-    </footer>
-  </div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
