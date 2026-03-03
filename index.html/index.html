@@ -352,6 +352,30 @@
           </div>
         </div>
 
+        <div class="row3">
+  <div>
+    <label for="patientEmail">Patient email</label>
+    <input id="patientEmail" type="email" placeholder="e.g., patient@email.com" />
+  </div>
+  <div>
+    <label for="billDueDate">Bill due date</label>
+    <input id="billDueDate" type="date" />
+  </div>
+  <div>
+    <label for="providerName">Provider/Practice name</label>
+    <input id="providerName" placeholder="Assure Med" />
+  </div>
+</div>
+
+<div class="ctaRow" style="margin-top:10px;">
+  <button class="btn btnSoft" id="emailBillBtn" type="button">Email Bill (Amount Only)</button>
+</div>
+
+<div class="mini" style="margin-top:8px;">
+  Opens your email app with a prefilled statement (amount only). Attach PDF if needed.
+</div>
+
+
         <label for="note">Internal note (optional)</label>
         <textarea id="note" placeholder="e.g., payer, provider, location, or session note (avoid PHI)"></textarea>
 
