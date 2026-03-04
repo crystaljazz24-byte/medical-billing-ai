@@ -780,14 +780,60 @@ function wire(){
   $("downloadBtn").addEventListener("click", downloadCSV);
   $("printBtn").addEventListener("click", printPDF);
 
+   document.getElementById("emailBillBtn")
+  ?.addEventListener("click", (e) => { e.preventDefault(); emailBillAmountOnly(); }); 
+
   $("openPayBtn").addEventListener("click", openPay);
   $("unlockBtn").addEventListener("click", unlockPro);
   $("lockBtn").addEventListener("click", lockPro);
 
   $("yr").textContent = new Date().getFullYear();
 
-  calc();
-}
+ 
+ function emailBillAmountOnly(){
+  const email = document.getElementById("patientEmail")?.value.trim();
+  if (!email){
+    alert("Enter patient email first.");
+    return;
+  }
 
+  const patient = document.getElementById("patientName")?.value || "Patient";
+  const provider = document.getElementById("providerName")?.value || "Assure Med";
+
+  const dos = document.getElementById("dosDateTime")?.value || "";
+
+  const rate = parseFloat(document.getElementById("rate")?.value) || 0;
+
+  const unitsField = document.getElementById("units");
+  const units = unitsField ? (parseFloat(unitsField.value) || 1) : 1;
+
+  const multiplierField = document.getElementById("payerMultiplier");
+  const multiplier = multiplierField ? (parseFloat(multiplierField.value) || 1) : 1;
+
+  const total = rate * units * multiplier;
+
+  if (total <= 0){
+    alert("Please enter a valid Rate first.");
+    return;
+  }
+
+  const subject = `Statement from ${provider}`;
+
+  const body =
+`Hello ${patient},
+
+Date of Service: ${dos}
+
+Amount Due: $${total.toFixed(2)}
+
+Thank you,
+${provider}`;
+
+  const mailto =
+`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailto;
+}
+  
 wire();
-wire();
+    
