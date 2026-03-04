@@ -780,8 +780,8 @@ function wire(){
   $("downloadBtn").addEventListener("click", downloadCSV);
   $("printBtn").addEventListener("click", printPDF);
 
-   document.getElementById("emailBillBtn")
-  ?.addEventListener("click", (e) => { e.preventDefault(); emailBillAmountOnly(); }); 
+  document.getElementById("emailBillBtn")
+    ?.addEventListener("click", (e) => { e.preventDefault(); emailBillAmountOnly(); });
 
   $("openPayBtn").addEventListener("click", openPay);
   $("unlockBtn").addEventListener("click", unlockPro);
@@ -789,8 +789,10 @@ function wire(){
 
   $("yr").textContent = new Date().getFullYear();
 
- 
- function emailBillAmountOnly(){
+  calc();
+}
+
+function emailBillAmountOnly(){
   const email = document.getElementById("patientEmail")?.value.trim();
   if (!email){
     alert("Enter patient email first.");
@@ -799,7 +801,6 @@ function wire(){
 
   const patient = document.getElementById("patientName")?.value || "Patient";
   const provider = document.getElementById("providerName")?.value || "Assure Med";
-
   const dos = document.getElementById("dosDateTime")?.value || "";
 
   const rate = parseFloat(document.getElementById("rate")?.value) || 0;
@@ -834,6 +835,5 @@ ${provider}`;
 
   window.location.href = mailto;
 }
-  
+
 wire();
-    
