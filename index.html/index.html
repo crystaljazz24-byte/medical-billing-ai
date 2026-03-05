@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <button class="btn btnSoft" id="jumpToClaims" type="button">Claims</button>
   <title>Assure Med Therapist Revenue Optimizer</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -349,13 +350,13 @@
           <div>
             <label for="dosDateTime">Date/time of service</label>
             <input id="dosDateTime" type="datetime-local" />
+            <button class="btn btnSoft" id="jumpToClaims" type="button">Claims</button>
           </div>
         </div>
 
         <div class="row3">
   <div>
     <label for="patientEmail">Patient email</label>
-    <input id="patientEmail" type="email" placeholder="e.g., patient@email.com" />
   </div>
   <div>
     <label for="billDueDate">Bill due date</label>
@@ -598,6 +599,163 @@
         </p>
       </div>
     </div>
+
+    <section class="card" id="claims" style="margin-top:18px;">
+  <h2 style="margin:0 0 6px;">Claims (837P) — Builder</h2>
+  <div class="mini" style="margin-bottom:12px;">
+    Build a claim packet and export JSON. (MVP step before clearinghouse submission.)
+  </div>
+
+  <h3 style="margin:12px 0 6px;">Patient</h3>
+  <div class="row3">
+    <div>
+      <label for="c_patientName">Patient name</label>
+      <input id="c_patientName" placeholder="e.g., Jane Doe" />
+    </div>
+    <div>
+      <label for="c_patientDob">DOB</label>
+      <input id="c_patientDob" type="date" />
+    </div>
+    <div>
+      <label for="c_patientSex">Sex</label>
+      <select id="c_patientSex">
+        <option value="">—</option>
+        <option value="F">F</option>
+        <option value="M">M</option>
+        <option value="X">X</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div>
+      <label for="c_patientEmail">Patient email</label>
+      <input id="c_patientEmail" type="email" placeholder="patient@email.com" />
+    </div>
+    <div>
+      <label for="c_dos">DOS (date/time)</label>
+      <input id="c_dos" type="datetime-local" />
+    </div>
+    <div>
+      <label for="c_pos">Place of Service (POS)</label>
+      <select id="c_pos">
+        <option value="11">11 Office</option>
+        <option value="02">02 Telehealth</option>
+        <option value="10">10 Telehealth (home)</option>
+        <option value="12">12 Home</option>
+      </select>
+    </div>
+  </div>
+
+  <h3 style="margin:14px 0 6px;">Subscriber / Insurance</h3>
+  <div class="row3">
+    <div>
+      <label for="c_subscriberName">Subscriber name</label>
+      <input id="c_subscriberName" placeholder="If different from patient" />
+    </div>
+    <div>
+      <label for="c_memberId">Member ID</label>
+      <input id="c_memberId" placeholder="Insurance member ID" />
+    </div>
+    <div>
+      <label for="c_payerName">Payer name</label>
+      <input id="c_payerName" placeholder="e.g., Aetna" />
+    </div>
+  </div>
+
+  <div class="row3">
+    <div>
+      <label for="c_payerId">Payer ID</label>
+      <input id="c_payerId" placeholder="Clearinghouse payer ID (optional)" />
+    </div>
+    <div>
+      <label for="c_relationship">Relationship</label>
+      <select id="c_relationship">
+        <option value="self">Self</option>
+        <option value="spouse">Spouse</option>
+        <option value="child">Child</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div>
+      <label for="c_claimType">Claim type</label>
+      <select id="c_claimType">
+        <option value="insurance">Insurance only</option>
+        <option value="insurance_plus_patient">Insurance + patient responsibility</option>
+      </select>
+    </div>
+  </div>
+
+  <h3 style="margin:14px 0 6px;">Provider (Billing)</h3>
+  <div class="row3">
+    <div>
+      <label for="c_billProvName">Billing provider name</label>
+      <input id="c_billProvName" placeholder="Practice / clinician" />
+    </div>
+    <div>
+      <label for="c_billNpi">Billing NPI</label>
+      <input id="c_billNpi" placeholder="10-digit NPI" />
+    </div>
+    <div>
+      <label for="c_taxId">Tax ID (EIN/SSN)</label>
+      <input id="c_taxId" placeholder="Optional for MVP" />
+    </div>
+  </div>
+
+  <h3 style="margin:14px 0 6px;">Diagnosis (ICD-10)</h3>
+  <div class="row3">
+    <div>
+      <label for="c_dx1">DX1</label>
+      <input id="c_dx1" placeholder="e.g., F41.1" />
+    </div>
+    <div>
+      <label for="c_dx2">DX2</label>
+      <input id="c_dx2" placeholder="Optional" />
+    </div>
+    <div>
+      <label for="c_dx3">DX3</label>
+      <input id="c_dx3" placeholder="Optional" />
+    </div>
+  </div>
+
+  <h3 style="margin:14px 0 6px;">Service line (single-line MVP)</h3>
+  <div class="row3">
+    <div>
+      <label for="c_cpt">CPT/HCPCS</label>
+      <input id="c_cpt" placeholder="e.g., 90791" />
+    </div>
+    <div>
+      <label for="c_units">Units</label>
+      <input id="c_units" type="number" step="0.25" value="1" />
+    </div>
+    <div>
+      <label for="c_charge">Charge ($)</label>
+      <input id="c_charge" type="number" step="0.01" placeholder="e.g., 150.00" />
+    </div>
+  </div>
+
+  <div class="row3">
+    <div>
+      <label for="c_mod1">Modifier 1</label>
+      <input id="c_mod1" placeholder="Optional (e.g., 95)" />
+    </div>
+    <div>
+      <label for="c_mod2">Modifier 2</label>
+      <input id="c_mod2" placeholder="Optional" />
+    </div>
+    <div>
+      <label for="c_patientDue">Patient due ($)</label>
+      <input id="c_patientDue" type="number" step="0.01" placeholder="0.00" />
+    </div>
+  </div>
+
+  <div class="ctaRow" style="margin-top:12px;">
+    <button class="btn" id="exportClaimJsonBtn" type="button">Export Claim Packet (JSON)</button>
+    <button class="btn btnGhost" id="fillClaimFromSessionBtn" type="button">Fill from Session Sheet</button>
+  </div>
+
+  <pre id="claimPreview" class="mini" style="margin-top:10px; white-space:pre-wrap;"></pre>
+</section>
 
     <footer>
       © <span id="yr"></span> Assure Med • No PHI stored
