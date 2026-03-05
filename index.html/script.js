@@ -1,8 +1,3 @@
-/* =========================
-   Assure Med — script.js
-   Clean, stable, single-wire version
-   ========================= */
-
 function $(id){ return document.getElementById(id); }
 
 const STORAGE_KEY = "assuremed_session_sheet_v1";
