@@ -1,3 +1,4 @@
+
 function $(id){ return document.getElementById(id); }
 
 const STORAGE_KEY = "assuremed_session_sheet_v1";
@@ -197,6 +198,174 @@ function codingWarnings(code){
   if (code === "G0018") warn.push("G0018 typically pairs with G0017 (crisis base in applicable site).");
   if (code === "96121") warn.push("96121 is typically an add-on to 96116.");
   return warn;
+
+  // --- Claims (MVP: build + preview + export JSON) ---
+function buildClaimPacket(){
+  const get = (id) => document.getElementById(id)?.value ?? "";
+
+  const patientName = (get("c_patientName") || $("patientName")?.value || "").trim();
+  const patientDob  = get("c_patientDob") || $("patientDob")?.value || "";
+  const dos         = get("c_dos") || $("dosDateTime")?.value || "";
+
+  const cptDefault  = get("c_cpt").trim() || $("code")?.value || "";
+
+  // Per-visit charge estimate: rate × units × multiplier
+  const rate = parseFloat($("rate")?.value || "0") || 0;
+  let units = 1;
+  const unitsEl = document.getElementById("units");
+  if (unitsEl && unitsEl.value) units = parseFloat(unitsEl.value) || 1;
+
+  const multRaw = ($("payerMultiplier")?.value || "").trim();
+  const mult = multRaw ? (parseFloat(multRaw) || 1) : 1;
+
+  const suggestedCharge = rate * units * mult;
+
+  const claim = {
+    type: "837P",
+    createdAt: new Date().toISOString(),
+
+    patient: {
+      name: patientName,
+      dob: patientDob,
+      sex: get("c_patientSex"),
+      email: (get("c_patientEmail") || "").trim()
+    },
+
+    subscriber: {
+      relationship: get("c_relationship") || "self",
+      name: (get("c_subscriberName") || patientName).trim(),
+      memberId: (get("c_memberId") || "").trim()
+    },
+
+    payer: {
+      name: (get("c_payerName") || "").trim(),
+      payerId: (get("c_payerId") || "").trim()
+    },
+
+    provider: {
+      billingName: (get("c_billProvName") || "").trim(),
+      billingNpi: (get("c_billNpi") || "").trim(),
+      taxId: (get("c_taxId") || "").trim()
+    },
+
+    claimInfo: {
+      dos,
+      pos: get("c_pos") || "11",
+      claimType: get("c_claimType") || "insurance",
+      diagnosis: [get("c_dx1").trim(), get("c_dx2").trim(), get("c_dx3").trim()].filter(Boolean)
+    },
+
+    serviceLines: [
+      {
+        cpt: cptDefault,
+        units: parseFloat(get("c_units") || "1") || 1,
+        charge: (parseFloat(get("c_charge")) || 0) > 0
+          ? (parseFloat(get("c_charge")) || 0)
+          : (suggestedCharge > 0 ? Number(suggestedCharge.toFixed(2)) : 0),
+        modifiers: [get("c_mod1").trim(), get("c_mod2").trim()].filter(Boolean),
+        patientDue: parseFloat(get("c_patientDue") || "0") || 0
+      }
+    ]
+  };
+
+  return claim;
+}
+
+function renderClaimPreview(){
+  const pre = document.getElementById("claimPreview");
+  if (!pre) return;
+  try{
+    const claim = buildClaimPacket();
+    pre.textContent = JSON.stringify(claim, null, 2);
+  }catch(e){
+    pre.textContent = "Could not build claim packet: " + (e?.message || "");
+  }
+}
+
+function exportClaimJson(){
+  const claim = buildClaimPacket();
+  const safeName = (claim.patient.name || "claim").replace(/[^a-z0-9]+/gi, "_").slice(0,40);
+  const dosPart = (claim.claimInfo.dos || "").replace(/[:]/g,"").replace("T","_").slice(0,16);
+  const filename = `assuremed_837p_claim_${safeName}_${dosPart || "dos"}.json`;
+
+ }
+
+  const blob = new Blob([JSON.stringify(claim, null, 2)], { type:"application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function generate837EDI(){
+
+  const claim = buildClaimPacket();
+
+  const patient = claim.patient.name || "PATIENT";
+  const cpt = claim.serviceLines[0].cpt || "";
+  const units = claim.serviceLines[0].units || 1;
+  const charge = claim.serviceLines[0].charge || 0;
+
+  const providerNPI = claim.provider.billingNpi || "1234567890";
+  const payer = claim.payer.name || "PAYER";
+
+  const edi =
+`ISA*00*          *00*          *ZZ*ASSUREMED      *ZZ*CLEARINGHOUSE  *240305*1253*^*00501*000000001*0*T*:~
+GS*HC*ASSUREMED*CLEARINGHOUSE*20240305*1253*1*X*005010X222A1~
+ST*837*0001~
+BHT*0019*00*0123*20240305*1253*CH~
+NM1*41*2*ASSURE MED*****46*123456~
+NM1*40*2*${payer}*****46*999999~
+HL*1**20*1~
+NM1*85*2*ASSURE MED*****XX*${providerNPI}~
+HL*2*1*22*0~
+NM1*IL*1*${patient}****MI*123456789~
+CLM*12345*${charge}***11:B:1*Y*A*Y*I~
+LX*1~
+SV1*HC:${cpt}*${charge}*UN*${units}***1~
+SE*10*0001~
+GE*1*1~
+IEA*1*000000001~`;
+
+  const blob = new Blob([edi], { type: "text/plain" });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "assuremed_claim_837P.txt";
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function fillClaimFromSession(){
+  document.getElementById("c_patientName").value = $("patientName")?.value || "";
+  document.getElementById("c_patientDob").value = $("patientDob")?.value || "";
+  document.getElementById("c_dos").value = $("dosDateTime")?.value || "";
+  document.getElementById("c_cpt").value = $("code")?.value || "";
+
+  const unitsEl = document.getElementById("units");
+  const units = unitsEl && unitsEl.value ? (parseFloat(unitsEl.value) || 1) : 1;
+  document.getElementById("c_units").value = String(units);
+
+  const rate = parseFloat($("rate")?.value || "0") || 0;
+  const multRaw = ($("payerMultiplier")?.value || "").trim();
+  const mult = multRaw ? (parseFloat(multRaw) || 1) : 1;
+  const visitCharge = rate * units * mult;
+
+  document.getElementById("c_charge").value = visitCharge > 0 ? visitCharge.toFixed(2) : "";
+
+  renderClaimPreview();
+  saveState();
+
 }
 
 // --- App State ---
@@ -801,6 +970,9 @@ function wire(){
   $("calcCompare").addEventListener("click", (e) => { e.preventDefault(); calcCompare(); });
 
   $("jumpToCalc").addEventListener("click", () => $("calculator").scrollIntoView({behavior:"smooth"}));
+  document.getElementById("jumpToClaims")?.addEventListener("click", () =>
+  document.getElementById("claims")?.scrollIntoView({behavior:"smooth"})
+);
   $("demoBtn").addEventListener("click", loadDemo);
   $("resetBtn").addEventListener("click", resetAll);
   $("downloadBtn").addEventListener("click", downloadCSV);
@@ -815,8 +987,31 @@ function wire(){
 
   $("yr").textContent = new Date().getFullYear();
 
-  calc();
-}
+document.getElementById("exportClaimJsonBtn")?.addEventListener("click", exportClaimJson);
+document.getElementById("fillClaimFromSessionBtn")?.addEventListener("click", fillClaimFromSession);
+
+  document.getElementById("generate837Btn")
+?.addEventListener("click", generate837EDI);
+
+  $("openPayBtn").addEventListener("click", openPay);
+$("unlockBtn").addEventListener("click", unlockPro);
+$("lockBtn").addEventListener("click", lockPro);
+
+$("yr").textContent = new Date().getFullYear();
+  
+[
+  "c_patientName","c_patientDob","c_patientSex","c_patientEmail","c_dos","c_pos",
+  "c_subscriberName","c_memberId","c_payerName","c_payerId","c_relationship","c_claimType",
+  "c_billProvName","c_billNpi","c_taxId",
+  "c_dx1","c_dx2","c_dx3",
+  "c_cpt","c_units","c_charge","c_mod1","c_mod2","c_patientDue"
+].forEach(id => document.getElementById(id)?.addEventListener("input", () => {
+  renderClaimPreview();
+  saveState();
+}));
+
+calc();
+renderClaimPreview();
 
 function emailBillAmountOnly(){
   const email = document.getElementById("patientEmail")?.value.trim();
