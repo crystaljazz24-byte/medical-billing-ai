@@ -223,6 +223,32 @@ function getState(){
     rate90837: $("rate90837").value,
     compareSessions: $("compareSessions").value,
 
+        // Claims fields
+    c_patientName: document.getElementById("c_patientName")?.value ?? "",
+    c_patientDob: document.getElementById("c_patientDob")?.value ?? "",
+    c_patientEmail: document.getElementById("c_patientEmail")?.value ?? "",
+    c_patientSex: document.getElementById("c_patientSex")?.value ?? "",
+
+    c_dos: document.getElementById("c_dos")?.value ?? "",
+    c_pos: document.getElementById("c_pos")?.value ?? "",
+
+    c_subscriberName: document.getElementById("c_subscriberName")?.value ?? "",
+    c_memberId: document.getElementById("c_memberId")?.value ?? "",
+    c_payerName: document.getElementById("c_payerName")?.value ?? "",
+    c_payerId: document.getElementById("c_payerId")?.value ?? "",
+
+    c_billProvName: document.getElementById("c_billProvName")?.value ?? "",
+    c_billNpi: document.getElementById("c_billNpi")?.value ?? "",
+    c_taxId: document.getElementById("c_taxId")?.value ?? "",
+
+    c_dx1: document.getElementById("c_dx1")?.value ?? "",
+    c_dx2: document.getElementById("c_dx2")?.value ?? "",
+    c_dx3: document.getElementById("c_dx3")?.value ?? "",
+
+    c_cpt: document.getElementById("c_cpt")?.value ?? "",
+    c_units: document.getElementById("c_units")?.value ?? "",
+    c_charge: document.getElementById("c_charge")?.value ?? "",
+
     mix
   };
 }
