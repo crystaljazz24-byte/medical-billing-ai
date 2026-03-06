@@ -26,7 +26,9 @@
       --proBorder: rgba(106,90,205,0.18);
       --soft:#ffffffb3;
     }
+
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -37,237 +39,297 @@
       color:var(--ink);
       padding: 28px 16px 60px;
     }
+
     .wrap{ max-width: 1080px; margin: 0 auto; }
 
     .topbar{
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
       margin-bottom: 18px;
     }
+
     .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight: 900;
-      letter-spacing: .2px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
     }
+
     .logo{
-      width:38px; height:38px; border-radius: 14px;
+      width:38px;
+      height:38px;
+      border-radius:14px;
       background: linear-gradient(135deg, var(--brand), var(--brand2));
       box-shadow: var(--shadow);
     }
+
     .pill{
-      font-size: 12px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
+      font-size:12px;
+      padding:8px 12px;
+      border:1px solid var(--border);
       background: rgba(255,255,255,0.7);
-      border-radius: 999px;
-      color: var(--muted);
+      border-radius:999px;
+      color:var(--muted);
       display:flex;
       gap:8px;
       align-items:center;
       white-space:nowrap;
     }
-    .dot{ width:8px;height:8px;border-radius:999px; background:#bbb; }
-    .dot.pro{ background: #4caf50; }
+
+    .dot{ width:8px; height:8px; border-radius:999px; background:#bbb; }
+    .dot.pro{ background:#4caf50; }
 
     .card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
     }
 
     .hero{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items: stretch;
-      margin: 14px 0 18px;
+      gap:18px;
+      align-items:stretch;
+      margin:14px 0 18px;
     }
-    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; } }
+
+    @media (max-width:900px){
+      .hero{ grid-template-columns:1fr; }
+    }
 
     h1{
-      margin: 6px 0 8px;
-      font-size: 34px;
-      line-height: 1.1;
-      letter-spacing: -0.4px;
-    }
-    .sub{
-      color: var(--muted);
-      line-height: 1.55;
-      margin: 0 0 12px;
-      font-size: 14px;
+      margin:6px 0 8px;
+      font-size:34px;
+      line-height:1.1;
+      letter-spacing:-0.4px;
     }
 
-    .ctaRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+    h2,h3{ margin:0 0 6px; }
+
+    .sub{
+      color:var(--muted);
+      line-height:1.55;
+      margin:0 0 12px;
+      font-size:14px;
+    }
+
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
     .btn{
-      border:0; cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 800;
-      font-size: 14px;
+      border:0;
+      cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:800;
+      font-size:14px;
       display:inline-flex;
       align-items:center;
       gap:8px;
     }
-    .btnPrimary{ background: linear-gradient(135deg, var(--brand), var(--brand2)); color: white; }
-    .btnGhost{ background: transparent; border: 1px solid var(--border); color: var(--ink); }
-    .btnSoft{ background: rgba(106,90,205,0.10); border: 1px solid rgba(106,90,205,0.18); color: #3b2f91; }
-    .btnDanger{ background: rgba(220,60,60,0.10); border: 1px solid rgba(220,60,60,0.20); color: #7b1e1e; }
+
+    .btnPrimary{ background: linear-gradient(135deg, var(--brand), var(--brand2)); color:white; }
+    .btnGhost{ background:transparent; border:1px solid var(--border); color:var(--ink); }
+    .btnSoft{ background: rgba(106,90,205,0.10); border:1px solid rgba(106,90,205,0.18); color:#3b2f91; }
+    .btnDanger{ background: rgba(220,60,60,0.10); border:1px solid rgba(220,60,60,0.20); color:#7b1e1e; }
 
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
+      gap:18px;
+      margin-top:18px;
     }
-    @media (max-width: 900px){ .grid{ grid-template-columns:1fr; } }
+
+    @media (max-width:900px){
+      .grid{ grid-template-columns:1fr; }
+    }
 
     label{
       display:block;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 10px 0 6px;
-      font-weight: 800;
+      font-size:13px;
+      color:var(--muted);
+      margin:10px 0 6px;
+      font-weight:800;
     }
+
     input, select, textarea{
       width:100%;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
       background: rgba(255,255,255,0.92);
-      font-size: 15px;
+      font-size:15px;
       outline:none;
       font-family: inherit;
     }
-    textarea{ min-height: 86px; resize: vertical; }
+
+    textarea{
+      min-height:86px;
+      resize:vertical;
+    }
+
     input:focus, select:focus, textarea:focus{
       border-color: rgba(106,90,205,0.6);
       box-shadow: var(--focus);
     }
 
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .row3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    @media (max-width: 720px){ .row, .row3{ grid-template-columns:1fr; } }
+    .row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
 
-    .note{ font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 10px; }
-    .divider{ height:1px; background: var(--border); margin: 14px 0; }
-    .mini{ font-size: 12px; color: var(--muted); }
+    @media (max-width:720px){
+      .row, .row3{ grid-template-columns:1fr; }
+    }
+
+    .note{ font-size:12px; color:var(--muted); line-height:1.5; margin-top:10px; }
+    .divider{ height:1px; background:var(--border); margin:14px 0; }
+    .mini{ font-size:12px; color:var(--muted); }
 
     .infoBox{
-      border: 1px solid var(--border);
+      border:1px solid var(--border);
       background: rgba(255,255,255,0.68);
-      padding: 12px;
-      border-radius: 16px;
-      margin-top: 12px;
+      padding:12px;
+      border-radius:16px;
+      margin-top:12px;
     }
 
     .warn{
-      border: 1px solid rgba(255, 140, 90, 0.55);
-      background: var(--warnBg);
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-      color: var(--warnInk);
-      font-size: 13px;
+      border:1px solid rgba(255, 140, 90, 0.55);
+      background:var(--warnBg);
+      padding:10px 12px;
+      border-radius:14px;
+      margin-top:12px;
+      color:var(--warnInk);
+      font-size:13px;
       display:none;
-      line-height: 1.45;
+      line-height:1.45;
     }
+
     .good{
-      border: 1px solid rgba(72, 187, 120, 0.25);
-      background: var(--goodBg);
-      padding: 10px 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-      font-size: 13px;
+      border:1px solid rgba(72, 187, 120, 0.25);
+      background:var(--goodBg);
+      padding:10px 12px;
+      border-radius:14px;
+      margin-top:12px;
+      font-size:13px;
       display:none;
-      line-height: 1.45;
+      line-height:1.45;
     }
 
     .proBox{
-      border: 1px solid var(--proBorder);
-      background: var(--proBg);
-      padding: 12px;
-      border-radius: 16px;
-      margin-top: 12px;
+      border:1px solid var(--proBorder);
+      background:var(--proBg);
+      padding:12px;
+      border-radius:16px;
+      margin-top:12px;
     }
-    .proLock{ position:relative; }
-    .proLock::after{
-      content:"Pro Feature";
-      position:absolute;
-      top:12px;
-      right:12px;
-      font-size:12px;
-      font-weight:900;
-      padding:6px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,0.75);
-      border: 1px solid var(--proBorder);
-      color:#3b2f91;
-    }
+
     .hidden{ display:none !important; }
 
     .stats{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
     }
-    @media (max-width: 520px){ .stats{ grid-template-columns:1fr; } }
-    .stat{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.65);
-      border-radius: 16px;
-      padding: 12px;
-    }
-    .stat .k{ color: var(--muted); font-size: 12px; font-weight: 900; }
-    .stat .v{ font-size: 20px; font-weight: 900; margin-top: 6px; letter-spacing: -0.2px; }
 
-    .mixTable{ width:100%; border-collapse: collapse; margin-top: 10px; }
-    .mixTable th, .mixTable td{ border: 1px solid var(--border); padding: 10px; text-align:left; font-size: 13px; }
+    @media (max-width:520px){
+      .stats{ grid-template-columns:1fr; }
+    }
+
+    .stat{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.65);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .stat .k{ color:var(--muted); font-size:12px; font-weight:900; }
+    .stat .v{ font-size:20px; font-weight:900; margin-top:6px; }
+
+    .mixTable{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+    }
+
+    .mixTable th, .mixTable td{
+      border:1px solid var(--border);
+      padding:10px;
+      text-align:left;
+      font-size:13px;
+    }
+
     .mixTable th{ background: rgba(255,255,255,0.75); }
-    .mixActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
 
     .mixRow{
       display:grid;
       grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
-      gap: 10px;
-      margin-top: 10px;
+      gap:10px;
+      margin-top:10px;
       align-items:end;
     }
-    @media (max-width: 900px){
-      .mixRow{ grid-template-columns: 1fr 1fr; }
-      .mixRow .btn{ width:100%; justify-content:center; }
+
+    @media (max-width:900px){
+      .mixRow{ grid-template-columns:1fr 1fr; }
     }
 
     .reportCard{
-      border: 1px solid var(--border);
-      background: var(--soft);
-      border-radius: 16px;
-      padding: 14px;
-      margin-top: 12px;
+      border:1px solid var(--border);
+      background:var(--soft);
+      border-radius:16px;
+      padding:14px;
+      margin-top:12px;
     }
+
     .reportHeader{
-      display:flex; justify-content:space-between; gap: 12px; flex-wrap:wrap;
-      padding-bottom: 10px; border-bottom: 1px dashed var(--border);
-      margin-bottom: 10px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      padding-bottom:10px;
+      border-bottom:1px dashed var(--border);
+      margin-bottom:10px;
     }
+
     .reportHeader .t{
-      font-weight: 900;
-      letter-spacing: .2px;
+      font-weight:900;
+      letter-spacing:.2px;
     }
-    .kv{ display:grid; grid-template-columns: 140px 1fr; gap: 8px 12px; }
-    @media (max-width: 520px){ .kv{ grid-template-columns:1fr; } }
-    .kv .k{ color: var(--muted); font-size: 12px; font-weight: 900; }
-    .kv .v{ font-weight: 700; }
 
-    footer{ margin-top: 18px; text-align:center; color: var(--muted); font-size: 12px; }
+    .kv{
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap:8px 12px;
+    }
 
-    /* Print styles */
+    @media (max-width:520px){
+      .kv{ grid-template-columns:1fr; }
+    }
+
+    .kv .k{ color:var(--muted); font-size:12px; font-weight:900; }
+    .kv .v{ font-weight:700; }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+
     @media print{
-      body{ background: white; padding:0; }
-      .topbar, .hero, #downloadBtn, #resetBtn, #demoBtn, #openPayBtn, #unlockBtn, #lockBtn { display:none !important; }
-      .card{ box-shadow:none !important; border: 1px solid #ddd !important; }
-      .wrap{ max-width: 100% !important; }
+      body{ background:white; padding:0; }
+      .topbar, .hero, #downloadBtn, #resetBtn, #demoBtn, #openPayBtn, #unlockBtn, #lockBtn, #jumpToClaims, #generate837Btn, #exportClaimJsonBtn, #fillClaimFromSessionBtn { display:none !important; }
+      .card{ box-shadow:none !important; border:1px solid #ddd !important; }
+      .wrap{ max-width:100% !important; }
       #printBtn{ display:none !important; }
     }
   </style>
@@ -287,15 +349,16 @@
       <div class="card">
         <h1>Therapist Revenue Optimizer</h1>
         <p class="sub">
-          Session-level revenue estimates with patient/session headers, unit helpers, and a GA–Atlanta Medicare baseline workflow (you paste CMS values once).
+          Session-level revenue estimates with patient/session headers, unit helpers, and a GA–Atlanta Medicare baseline workflow.
         </p>
 
         <div class="ctaRow">
-          <button class="btn btnPrimary" id="jumpToCalc">Open Calculator</button>
-          <button class="btn btnSoft" id="demoBtn">Load Demo</button>
-          <button class="btn btnGhost" id="resetBtn">Reset</button>
-          <button class="btn btnGhost" id="downloadBtn">Download Summary (CSV)</button>
-          <button class="btn btnGhost" id="printBtn">Print / Save PDF</button>
+          <button class="btn btnPrimary" id="jumpToCalc" type="button">Open Calculator</button>
+          <button class="btn btnSoft" id="demoBtn" type="button">Load Demo</button>
+          <button class="btn btnGhost" id="resetBtn" type="button">Reset</button>
+          <button class="btn btnGhost" id="downloadBtn" type="button">Download Summary (CSV)</button>
+          <button class="btn btnGhost" id="printBtn" type="button">Print / Save PDF</button>
+          <button class="btn btnSoft" id="jumpToClaims" type="button">Claims</button>
         </div>
 
         <div class="proBox">
@@ -304,17 +367,17 @@
             Pro unlocks multi-code weekly mix + undercoding estimator + fee table import/export.
           </div>
           <div class="ctaRow" style="margin-top:10px;">
-            <button class="btn btnPrimary" id="openPayBtn">Get Assure Med Pro</button>
-            <button class="btn btnSoft" id="unlockBtn">Unlock Pro (key)</button>
-            <button class="btn btnDanger hidden" id="lockBtn">Lock Pro</button>
+            <button class="btn btnPrimary" id="openPayBtn" type="button">Get Assure Med Pro</button>
+            <button class="btn btnSoft" id="unlockBtn" type="button">Unlock Pro (key)</button>
+            <button class="btn btnDanger hidden" id="lockBtn" type="button">Lock Pro</button>
           </div>
           <div class="mini" style="margin-top:6px;">
-            Add your Stripe payment link in <code>script.js</code> (STRIPE_PAYMENT_LINK).
+            Add your Stripe payment link in <code>script.js</code>.
           </div>
         </div>
 
         <p class="note">
-          Planning tool only. No PHI is stored by Assure Med unless you choose to save locally in your browser. Don’t enter sensitive identifiers.
+          Planning tool only. No PHI is stored unless you choose to save locally in your browser.
         </p>
       </div>
 
@@ -323,18 +386,17 @@
         <div class="divider"></div>
         <ul class="mini" style="margin:0; padding-left:16px; line-height:1.7;">
           <li>Patient/session header: name, DOB, DOS date+time</li>
-          <li>Unit helper (minutes → units) for time-based codes</li>
-          <li>Printable session sheet (Save as PDF)</li>
-          <li><strong>Pro:</strong> weekly mix + undercoding estimator</li>
-          <li><strong>Pro:</strong> import/export GA 2026 baseline fee table JSON</li>
+          <li>Unit helper for time-based codes</li>
+          <li>Printable session sheet</li>
+          <li>Weekly mix helper</li>
+          <li>Claims builder + JSON export + 837P text export</li>
         </ul>
       </div>
     </div>
 
     <div class="grid" id="calculator">
-      <!-- LEFT -->
       <div class="card">
-        <h2 style="margin:0 0 6px;">Session Sheet</h2>
+        <h2>Session Sheet</h2>
         <div class="mini">Tie each estimate to a patient + date/time of service.</div>
 
         <div class="row3">
@@ -349,36 +411,34 @@
           <div>
             <label for="dosDateTime">Date/time of service</label>
             <input id="dosDateTime" type="datetime-local" />
-            <button class="btn btnSoft" id="jumpToClaims" type="button">Claims</button>
           </div>
         </div>
 
-       <div class="row3">
-  <div>
-    <label for="patientEmail">Patient email</label>
-    <input id="patientEmail" type="email" placeholder="patient@email.com" />
-  </div>
-  <div>
-    <label for="billDueDate">Bill due date</label>
-    <input id="billDueDate" type="date" />
-  </div>
-  <div>
-    <label for="providerName">Provider/Practice name</label>
-    <input id="providerName" placeholder="Assure Med" />
-  </div>
-</div>
+        <div class="row3">
+          <div>
+            <label for="patientEmail">Patient email</label>
+            <input id="patientEmail" type="email" placeholder="patient@email.com" />
+          </div>
+          <div>
+            <label for="billDueDate">Bill due date</label>
+            <input id="billDueDate" type="date" />
+          </div>
+          <div>
+            <label for="providerName">Provider/Practice name</label>
+            <input id="providerName" placeholder="Assure Med" />
+          </div>
+        </div>
 
-<div class="ctaRow" style="margin-top:10px;">
-  <button class="btn btnSoft" id="emailBillBtn" type="button">Email Bill (Amount Only)</button>
-</div>
+        <div class="ctaRow">
+          <button class="btn btnSoft" id="emailBillBtn" type="button">Email Bill (Amount Only)</button>
+        </div>
 
-<div class="mini" style="margin-top:8px;">
-  Opens your email app with a prefilled statement (amount only). Attach PDF if needed.
-</div>
-
+        <div class="mini" style="margin-top:8px;">
+          Opens your email app with a prefilled statement.
+        </div>
 
         <label for="note">Internal note (optional)</label>
-        <textarea id="note" placeholder="e.g., payer, provider, location, or session note (avoid PHI)"></textarea>
+        <textarea id="note" placeholder="e.g., payer, provider, location, or session note"></textarea>
 
         <div class="divider"></div>
 
@@ -396,7 +456,7 @@
             <input id="rate" type="number" step="0.01" placeholder="e.g., 115" />
           </div>
           <div>
-            <label id="countLabel" for="count">Count</label>
+            <label id="countLabel" for="count">Count (per week)</label>
             <input id="count" type="number" step="1" placeholder="e.g., 1" />
           </div>
         </div>
@@ -426,9 +486,9 @@
         </div>
 
         <div class="proBox">
-          <div style="font-weight:900;">CMS Baseline (2026 • GA – Atlanta)</div>
+          <div style="font-weight:900;">CMS Baseline</div>
           <div class="mini" style="margin-top:6px;">
-            Paste GA–Atlanta amounts once (facility/non-facility). Then “Load baseline” fills the Rate.
+            You can keep this as a planning placeholder or import your own fee data later.
           </div>
 
           <div class="row">
@@ -436,23 +496,20 @@
               <label for="cmsSetting">Setting</label>
               <select id="cmsSetting">
                 <option value="nonfacility">Non-facility (office)</option>
-                <option value="facility">Facility (hospital/ASC)</option>
+                <option value="facility">Facility</option>
               </select>
             </div>
             <div style="display:flex;align-items:end;gap:10px;">
-              <button class="btn btnSoft" id="loadCmsRateBtn" style="width:100%;justify-content:center;">Load 2026 GA–Atlanta baseline</button>
+              <button class="btn btnSoft" id="loadCmsRateBtn" type="button" style="width:100%;justify-content:center;">Load baseline</button>
             </div>
           </div>
 
-          <div class="ctaRow" style="margin-top:10px;">
-            <button class="btn btnGhost" id="exportFeesBtn">Export fee table (JSON)</button>
-            <button class="btn btnGhost" id="importFeesBtn">Import fee table (JSON)</button>
+          <div class="ctaRow">
+            <button class="btn btnGhost" id="exportFeesBtn" type="button">Export fee table (JSON)</button>
+            <button class="btn btnGhost" id="importFeesBtn" type="button">Import fee table (JSON)</button>
           </div>
 
           <input id="importFile" type="file" accept="application/json" class="hidden" />
-          <div class="mini" style="margin-top:8px;">
-            Pro tip: Keep your exported JSON in your repo so you don’t retype.
-          </div>
         </div>
 
         <div class="warn" id="warnBox"></div>
@@ -460,10 +517,10 @@
 
         <div class="divider"></div>
 
-        <h2 style="margin:0 0 6px;">Weekly Mix (Pro)</h2>
-        <div class="mini">Multiple codes + units (example: 12×90834 + 10×97153 with 4 units).</div>
+        <h2>Weekly Mix</h2>
+        <div class="mini">Multiple codes + units.</div>
 
-        <div id="proMixSection" class="proLock">
+        <div id="proMixSection">
           <div class="mixRow">
             <div>
               <label for="mixCode">Code</label>
@@ -479,17 +536,17 @@
             </div>
             <div>
               <label for="mixUnits">Units</label>
-              <input id="mixUnits" type="number" step="0.25" placeholder="e.g., 1" />
+              <input id="mixUnits" type="number" step="0.25" placeholder="1" />
               <div class="mini" id="mixUnitsHint" style="margin-top:6px;"></div>
             </div>
-            <button class="btn btnPrimary" id="addMixBtn">Add</button>
+            <button class="btn btnPrimary" id="addMixBtn" type="button">Add</button>
           </div>
 
-          <div class="mixActions">
-            <button class="btn btnGhost" id="clearMixBtn">Clear Mix</button>
+          <div class="ctaRow">
+            <button class="btn btnGhost" id="clearMixBtn" type="button">Clear Mix</button>
           </div>
 
-          <table class="mixTable" id="mixTable">
+          <table class="mixTable">
             <thead>
               <tr>
                 <th>Code</th>
@@ -509,9 +566,8 @@
         </div>
       </div>
 
-      <!-- RIGHT -->
       <div class="card">
-        <h2 style="margin:0 0 6px;">Assure Med Session Summary</h2>
+        <h2>Assure Med Session Summary</h2>
         <div class="mini">Printable patient/session sheet.</div>
 
         <div class="reportCard" id="reportCard">
@@ -563,8 +619,8 @@
 
         <div class="divider"></div>
 
-        <div id="proCompareSection" class="proLock">
-          <h3 style="margin:0 0 6px;">Undercoding Estimator (Pro)</h3>
+        <div id="proCompareSection">
+          <h3>Undercoding Estimator</h3>
           <div class="mini">Compare 90834 vs 90837 at your volume.</div>
 
           <div class="row" style="margin-top:10px;">
@@ -585,7 +641,7 @@
             </div>
             <div>
               <label>&nbsp;</label>
-              <button class="btn btnPrimary" id="calcCompare" style="width:100%;">Calculate</button>
+              <button class="btn btnPrimary" id="calcCompare" type="button" style="width:100%;">Calculate</button>
             </div>
           </div>
 
@@ -601,168 +657,168 @@
     </div>
 
     <section class="card" id="claims" style="margin-top:18px;">
-  <h2 style="margin:0 0 6px;">Claims (837P) — Builder</h2>
-  <div class="mini" style="margin-bottom:12px;">
-    Build a claim packet and export JSON. (MVP step before clearinghouse submission.)
-  </div>
+      <h2>Claims (837P) — Builder</h2>
+      <div class="mini" style="margin-bottom:12px;">
+        Build a claim packet and export JSON or 837P text.
+      </div>
 
-  <h3 style="margin:12px 0 6px;">Patient</h3>
-  <div class="row3">
-    <div>
-      <label for="c_patientName">Patient name</label>
-      <input id="c_patientName" placeholder="e.g., Jane Doe" />
-    </div>
-    <div>
-      <label for="c_patientDob">DOB</label>
-      <input id="c_patientDob" type="date" />
-    </div>
-    <div>
-      <label for="c_patientSex">Sex</label>
-      <select id="c_patientSex">
-        <option value="">—</option>
-        <option value="F">F</option>
-        <option value="M">M</option>
-        <option value="X">X</option>
-      </select>
-    </div>
-  </div>
+      <h3 style="margin:12px 0 6px;">Patient</h3>
+      <div class="row3">
+        <div>
+          <label for="c_patientName">Patient name</label>
+          <input id="c_patientName" placeholder="e.g., Jane Doe" />
+        </div>
+        <div>
+          <label for="c_patientDob">DOB</label>
+          <input id="c_patientDob" type="date" />
+        </div>
+        <div>
+          <label for="c_patientSex">Sex</label>
+          <select id="c_patientSex">
+            <option value="">—</option>
+            <option value="F">F</option>
+            <option value="M">M</option>
+            <option value="X">X</option>
+          </select>
+        </div>
+      </div>
 
-  <div class="row3">
-    <div>
-      <label for="c_patientEmail">Patient email</label>
-      <input id="c_patientEmail" type="email" placeholder="patient@email.com" />
-    </div>
-    <div>
-      <label for="c_dos">DOS (date/time)</label>
-      <input id="c_dos" type="datetime-local" />
-    </div>
-    <div>
-      <label for="c_pos">Place of Service (POS)</label>
-      <select id="c_pos">
-        <option value="11">11 Office</option>
-        <option value="02">02 Telehealth</option>
-        <option value="10">10 Telehealth (home)</option>
-        <option value="12">12 Home</option>
-      </select>
-    </div>
-  </div>
+      <div class="row3">
+        <div>
+          <label for="c_patientEmail">Patient email</label>
+          <input id="c_patientEmail" type="email" placeholder="patient@email.com" />
+        </div>
+        <div>
+          <label for="c_dos">DOS (date/time)</label>
+          <input id="c_dos" type="datetime-local" />
+        </div>
+        <div>
+          <label for="c_pos">Place of Service (POS)</label>
+          <select id="c_pos">
+            <option value="11">11 Office</option>
+            <option value="02">02 Telehealth</option>
+            <option value="10">10 Telehealth (home)</option>
+            <option value="12">12 Home</option>
+          </select>
+        </div>
+      </div>
 
-  <h3 style="margin:14px 0 6px;">Subscriber / Insurance</h3>
-  <div class="row3">
-    <div>
-      <label for="c_subscriberName">Subscriber name</label>
-      <input id="c_subscriberName" placeholder="If different from patient" />
-    </div>
-    <div>
-      <label for="c_memberId">Member ID</label>
-      <input id="c_memberId" placeholder="Insurance member ID" />
-    </div>
-    <div>
-      <label for="c_payerName">Payer name</label>
-      <input id="c_payerName" placeholder="e.g., Aetna" />
-    </div>
-  </div>
+      <h3 style="margin:14px 0 6px;">Subscriber / Insurance</h3>
+      <div class="row3">
+        <div>
+          <label for="c_subscriberName">Subscriber name</label>
+          <input id="c_subscriberName" placeholder="If different from patient" />
+        </div>
+        <div>
+          <label for="c_memberId">Member ID</label>
+          <input id="c_memberId" placeholder="Insurance member ID" />
+        </div>
+        <div>
+          <label for="c_payerName">Payer name</label>
+          <input id="c_payerName" placeholder="e.g., Aetna" />
+        </div>
+      </div>
 
-  <div class="row3">
-    <div>
-      <label for="c_payerId">Payer ID</label>
-      <input id="c_payerId" placeholder="Clearinghouse payer ID (optional)" />
-    </div>
-    <div>
-      <label for="c_relationship">Relationship</label>
-      <select id="c_relationship">
-        <option value="self">Self</option>
-        <option value="spouse">Spouse</option>
-        <option value="child">Child</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div>
-      <label for="c_claimType">Claim type</label>
-      <select id="c_claimType">
-        <option value="insurance">Insurance only</option>
-        <option value="insurance_plus_patient">Insurance + patient responsibility</option>
-      </select>
-    </div>
-  </div>
+      <div class="row3">
+        <div>
+          <label for="c_payerId">Payer ID</label>
+          <input id="c_payerId" placeholder="Clearinghouse payer ID" />
+        </div>
+        <div>
+          <label for="c_relationship">Relationship</label>
+          <select id="c_relationship">
+            <option value="self">Self</option>
+            <option value="spouse">Spouse</option>
+            <option value="child">Child</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="c_claimType">Claim type</label>
+          <select id="c_claimType">
+            <option value="insurance">Insurance only</option>
+            <option value="insurance_plus_patient">Insurance + patient responsibility</option>
+          </select>
+        </div>
+      </div>
 
-  <h3 style="margin:14px 0 6px;">Provider (Billing)</h3>
-  <div class="row3">
-    <div>
-      <label for="c_billProvName">Billing provider name</label>
-      <input id="c_billProvName" placeholder="Practice / clinician" />
-    </div>
-    <div>
-      <label for="c_billNpi">Billing NPI</label>
-      <input id="c_billNpi" placeholder="10-digit NPI" />
-    </div>
-    <div>
-      <label for="c_taxId">Tax ID (EIN/SSN)</label>
-      <input id="c_taxId" placeholder="Optional for MVP" />
-    </div>
-  </div>
+      <h3 style="margin:14px 0 6px;">Provider (Billing)</h3>
+      <div class="row3">
+        <div>
+          <label for="c_billProvName">Billing provider name</label>
+          <input id="c_billProvName" placeholder="Practice / clinician" />
+        </div>
+        <div>
+          <label for="c_billNpi">Billing NPI</label>
+          <input id="c_billNpi" placeholder="10-digit NPI" />
+        </div>
+        <div>
+          <label for="c_taxId">Tax ID</label>
+          <input id="c_taxId" placeholder="Optional" />
+        </div>
+      </div>
 
-  <h3 style="margin:14px 0 6px;">Diagnosis (ICD-10)</h3>
-  <div class="row3">
-    <div>
-      <label for="c_dx1">DX1</label>
-      <input id="c_dx1" placeholder="e.g., F41.1" />
-    </div>
-    <div>
-      <label for="c_dx2">DX2</label>
-      <input id="c_dx2" placeholder="Optional" />
-    </div>
-    <div>
-      <label for="c_dx3">DX3</label>
-      <input id="c_dx3" placeholder="Optional" />
-    </div>
-  </div>
+      <h3 style="margin:14px 0 6px;">Diagnosis (ICD-10)</h3>
+      <div class="row3">
+        <div>
+          <label for="c_dx1">DX1</label>
+          <input id="c_dx1" placeholder="e.g., F41.1" />
+        </div>
+        <div>
+          <label for="c_dx2">DX2</label>
+          <input id="c_dx2" placeholder="Optional" />
+        </div>
+        <div>
+          <label for="c_dx3">DX3</label>
+          <input id="c_dx3" placeholder="Optional" />
+        </div>
+      </div>
 
-  <h3 style="margin:14px 0 6px;">Service line (single-line MVP)</h3>
-  <div class="row3">
-    <div>
-      <label for="c_cpt">CPT/HCPCS</label>
-      <input id="c_cpt" placeholder="e.g., 90791" />
-    </div>
-    <div>
-      <label for="c_units">Units</label>
-      <input id="c_units" type="number" step="0.25" value="1" />
-    </div>
-    <div>
-      <label for="c_charge">Charge ($)</label>
-      <input id="c_charge" type="number" step="0.01" placeholder="e.g., 150.00" />
-    </div>
-  </div>
+      <h3 style="margin:14px 0 6px;">Service line</h3>
+      <div class="row3">
+        <div>
+          <label for="c_cpt">CPT/HCPCS</label>
+          <input id="c_cpt" placeholder="e.g., 90791" />
+        </div>
+        <div>
+          <label for="c_units">Units</label>
+          <input id="c_units" type="number" step="0.25" value="1" />
+        </div>
+        <div>
+          <label for="c_charge">Charge ($)</label>
+          <input id="c_charge" type="number" step="0.01" placeholder="e.g., 150.00" />
+        </div>
+      </div>
 
-  <div class="row3">
-    <div>
-      <label for="c_mod1">Modifier 1</label>
-      <input id="c_mod1" placeholder="Optional (e.g., 95)" />
-    </div>
-    <div>
-      <label for="c_mod2">Modifier 2</label>
-      <input id="c_mod2" placeholder="Optional" />
-    </div>
-    <div>
-      <label for="c_patientDue">Patient due ($)</label>
-      <input id="c_patientDue" type="number" step="0.01" placeholder="0.00" />
-    </div>
-  </div>
+      <div class="row3">
+        <div>
+          <label for="c_mod1">Modifier 1</label>
+          <input id="c_mod1" placeholder="Optional (e.g., 95)" />
+        </div>
+        <div>
+          <label for="c_mod2">Modifier 2</label>
+          <input id="c_mod2" placeholder="Optional" />
+        </div>
+        <div>
+          <label for="c_patientDue">Patient due ($)</label>
+          <input id="c_patientDue" type="number" step="0.01" placeholder="0.00" />
+        </div>
+      </div>
 
-  <div class="ctaRow" style="margin-top:12px;">
-    <button class="btn" id="exportClaimJsonBtn" type="button">Export Claim Packet (JSON)</button>
-    <button class="btn btnGhost" id="fillClaimFromSessionBtn" type="button">Fill from Session Sheet</button>
-    <button class="btn btnSoft" id="generate837Btn" type="button">Export 837P (TXT)</button>
-  </div>
+      <div class="ctaRow" style="margin-top:12px;">
+        <button class="btn" id="exportClaimJsonBtn" type="button">Export Claim Packet (JSON)</button>
+        <button class="btn btnGhost" id="fillClaimFromSessionBtn" type="button">Fill from Session Sheet</button>
+        <button class="btn btnSoft" id="generate837Btn" type="button">Export 837P (TXT)</button>
+      </div>
 
-  <pre id="claimPreview" class="mini" style="margin-top:10px; white-space:pre-wrap;"></pre>
-</section>
+      <pre id="claimPreview" class="mini" style="margin-top:10px; white-space:pre-wrap;"></pre>
+    </section>
 
     <footer>
       © <span id="yr"></span> Assure Med • No PHI stored
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
