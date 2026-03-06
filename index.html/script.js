@@ -1,9 +1,18 @@
 function $(id){ return document.getElementById(id); }
 
-const STORAGE_KEY = "assuremed_app_state_v1";
+const STORAGE_KEY = "assuremed_app_state_v2";
+const FEES_STORAGE_KEY = "assuremed_fees_2026_ga_atlanta";
 const PRO_FLAG_KEY = "assuremed_isPro";
 const PRO_KEY = "ASSUREMED-PRO";
 const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/cNi4gzgMDavS0EJ68u8IU01";
+
+/*
+  Paste the official CMS CSV export URL here when ready.
+  Leave blank until you have it.
+*/
+const CMS_PFS_CSV_URL = "";
+const CMS_LOCALITY_NAME = "GA Atlanta";
+const CMS_YEAR = "2026";
 
 const CODES = [
   { code:"90791", label:"Psych diagnostic eval (no med)", category:"Diagnostic", unit:"per service", isAddon:false },
@@ -37,7 +46,7 @@ const CODES = [
 ];
 
 const DEFAULT_FEES = {
-  year: "2026",
+  year: CMS_YEAR,
   locality: "GA_ATLANTA",
   codes: {}
 };
@@ -129,10 +138,11 @@ function renderPlanUI(){
 
 function loadFees(){
   try{
-    const raw = localStorage.getItem("assuremed_fees_2026_ga_atlanta");
+    const raw = localStorage.getItem(FEES_STORAGE_KEY);
     if (!raw) return structuredClone(DEFAULT_FEES);
     const parsed = JSON.parse(raw);
-    return parsed?.codes ? parsed : structuredClone(DEFAULT_FEES);
+    if (!parsed || !parsed.codes) return structuredClone(DEFAULT_FEES);
+    return parsed;
   }catch{
     return structuredClone(DEFAULT_FEES);
   }
@@ -140,7 +150,7 @@ function loadFees(){
 
 function saveFees(){
   try{
-    localStorage.setItem("assuremed_fees_2026_ga_atlanta", JSON.stringify(fees));
+    localStorage.setItem(FEES_STORAGE_KEY, JSON.stringify(fees));
   }catch{}
 }
 
@@ -195,50 +205,21 @@ function getState(){
 function setState(s){
   if (!s) return;
 
-  if ($("patientName")) $("patientName").value = s.patientName ?? "";
-  if ($("patientDob")) $("patientDob").value = s.patientDob ?? "";
-  if ($("dosDateTime")) $("dosDateTime").value = s.dosDateTime ?? "";
-  if ($("patientEmail")) $("patientEmail").value = s.patientEmail ?? "";
-  if ($("billDueDate")) $("billDueDate").value = s.billDueDate ?? "";
-  if ($("providerName")) $("providerName").value = s.providerName ?? "";
-  if ($("note")) $("note").value = s.note ?? "";
+  const ids = [
+    "patientName","patientDob","dosDateTime","patientEmail","billDueDate","providerName","note",
+    "rate","count","minutes","units","weeksPerMonth","payerMultiplier","cmsSetting",
+    "rate90834","rate90837","compareSessions",
+    "c_patientName","c_patientDob","c_patientEmail","c_patientSex","c_dos","c_pos",
+    "c_subscriberName","c_memberId","c_payerName","c_payerId","c_relationship","c_claimType",
+    "c_billProvName","c_billNpi","c_taxId","c_dx1","c_dx2","c_dx3","c_cpt","c_units",
+    "c_charge","c_mod1","c_mod2","c_patientDue"
+  ];
+
+  ids.forEach(id => {
+    if ($(id) && s[id] !== undefined) $(id).value = s[id];
+  });
+
   if ($("code") && s.code) $("code").value = s.code;
-  if ($("rate")) $("rate").value = s.rate ?? "";
-  if ($("count")) $("count").value = s.count ?? "";
-  if ($("minutes")) $("minutes").value = s.minutes ?? "";
-  if ($("units")) $("units").value = s.units ?? "";
-  if ($("weeksPerMonth")) $("weeksPerMonth").value = s.weeksPerMonth ?? "4.33";
-  if ($("payerMultiplier")) $("payerMultiplier").value = s.payerMultiplier ?? "";
-  if ($("cmsSetting")) $("cmsSetting").value = s.cmsSetting ?? "nonfacility";
-  if ($("rate90834")) $("rate90834").value = s.rate90834 ?? "";
-  if ($("rate90837")) $("rate90837").value = s.rate90837 ?? "";
-  if ($("compareSessions")) $("compareSessions").value = s.compareSessions ?? "";
-
-  if ($("c_patientName")) $("c_patientName").value = s.c_patientName ?? "";
-  if ($("c_patientDob")) $("c_patientDob").value = s.c_patientDob ?? "";
-  if ($("c_patientEmail")) $("c_patientEmail").value = s.c_patientEmail ?? "";
-  if ($("c_patientSex")) $("c_patientSex").value = s.c_patientSex ?? "";
-  if ($("c_dos")) $("c_dos").value = s.c_dos ?? "";
-  if ($("c_pos")) $("c_pos").value = s.c_pos ?? "11";
-  if ($("c_subscriberName")) $("c_subscriberName").value = s.c_subscriberName ?? "";
-  if ($("c_memberId")) $("c_memberId").value = s.c_memberId ?? "";
-  if ($("c_payerName")) $("c_payerName").value = s.c_payerName ?? "";
-  if ($("c_payerId")) $("c_payerId").value = s.c_payerId ?? "";
-  if ($("c_relationship")) $("c_relationship").value = s.c_relationship ?? "self";
-  if ($("c_claimType")) $("c_claimType").value = s.c_claimType ?? "insurance";
-  if ($("c_billProvName")) $("c_billProvName").value = s.c_billProvName ?? "";
-  if ($("c_billNpi")) $("c_billNpi").value = s.c_billNpi ?? "";
-  if ($("c_taxId")) $("c_taxId").value = s.c_taxId ?? "";
-  if ($("c_dx1")) $("c_dx1").value = s.c_dx1 ?? "";
-  if ($("c_dx2")) $("c_dx2").value = s.c_dx2 ?? "";
-  if ($("c_dx3")) $("c_dx3").value = s.c_dx3 ?? "";
-  if ($("c_cpt")) $("c_cpt").value = s.c_cpt ?? "";
-  if ($("c_units")) $("c_units").value = s.c_units ?? "1";
-  if ($("c_charge")) $("c_charge").value = s.c_charge ?? "";
-  if ($("c_mod1")) $("c_mod1").value = s.c_mod1 ?? "";
-  if ($("c_mod2")) $("c_mod2").value = s.c_mod2 ?? "";
-  if ($("c_patientDue")) $("c_patientDue").value = s.c_patientDue ?? "";
-
   if (Array.isArray(s.mix)) mix = s.mix;
 }
 
@@ -591,36 +572,7 @@ function loadDemo(){
 function resetAll(){
   try{ localStorage.removeItem(STORAGE_KEY); }catch{}
   mix = [];
-  if ($("patientName")) $("patientName").value = "";
-  if ($("patientDob")) $("patientDob").value = "";
-  if ($("dosDateTime")) $("dosDateTime").value = "";
-  if ($("patientEmail")) $("patientEmail").value = "";
-  if ($("billDueDate")) $("billDueDate").value = "";
-  if ($("providerName")) $("providerName").value = "Assure Med";
-  if ($("note")) $("note").value = "";
-  if ($("rate")) $("rate").value = "";
-  if ($("count")) $("count").value = "";
-  if ($("minutes")) $("minutes").value = "";
-  if ($("units")) $("units").value = "";
-  if ($("weeksPerMonth")) $("weeksPerMonth").value = "4.33";
-  if ($("payerMultiplier")) $("payerMultiplier").value = "";
-  if ($("cmsSetting")) $("cmsSetting").value = "nonfacility";
-  if ($("rate90834")) $("rate90834").value = "";
-  if ($("rate90837")) $("rate90837").value = "";
-  if ($("compareSessions")) $("compareSessions").value = "";
-  [
-    "c_patientName","c_patientDob","c_patientEmail","c_patientSex","c_dos","c_pos",
-    "c_subscriberName","c_memberId","c_payerName","c_payerId","c_relationship","c_claimType",
-    "c_billProvName","c_billNpi","c_taxId","c_dx1","c_dx2","c_dx3","c_cpt","c_units","c_charge","c_mod1","c_mod2","c_patientDue"
-  ].forEach(id => { if ($(id)) $(id).value = ""; });
-
-  if ($("c_pos")) $("c_pos").value = "11";
-  if ($("c_relationship")) $("c_relationship").value = "self";
-  if ($("c_claimType")) $("c_claimType").value = "insurance";
-  if ($("c_units")) $("c_units").value = "1";
-
-  calc();
-  renderClaimPreview();
+  location.reload();
 }
 
 function openPay(){
@@ -708,7 +660,7 @@ function renderClaimPreview(){
   if (!pre) return;
   try{
     pre.textContent = JSON.stringify(buildClaimPacket(), null, 2);
-  }catch(e){
+  }catch{
     pre.textContent = "Could not build claim packet.";
   }
 }
@@ -817,8 +769,154 @@ ${provider}`;
     `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+function parseCsv(text){
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++){
+    const ch = text[i];
+    const next = text[i + 1];
+
+    if (inQuotes){
+      if (ch === '"' && next === '"'){
+        cell += '"';
+        i++;
+      } else if (ch === '"'){
+        inQuotes = false;
+      } else {
+        cell += ch;
+      }
+    } else {
+      if (ch === '"'){
+        inQuotes = true;
+      } else if (ch === ","){
+        row.push(cell);
+        cell = "";
+      } else if (ch === "\n"){
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+      } else if (ch !== "\r"){
+        cell += ch;
+      }
+    }
+  }
+
+  if (cell.length || row.length){
+    row.push(cell);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+function normalizeKey(s){
+  return String(s || "").trim().toLowerCase();
+}
+
+function findColumnIndex(headers, candidates){
+  const normalized = headers.map(normalizeKey);
+  for (const c of candidates){
+    const idx = normalized.indexOf(normalizeKey(c));
+    if (idx !== -1) return idx;
+  }
+  return -1;
+}
+
+async function importCmsFeeSchedule(){
+  if (!CMS_PFS_CSV_URL){
+    alert("Paste the official CMS CSV export URL into CMS_PFS_CSV_URL in script.js first.");
+    return;
+  }
+
+  try{
+    const res = await fetch(CMS_PFS_CSV_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const text = await res.text();
+    const rows = parseCsv(text);
+    if (!rows.length) throw new Error("Empty CSV");
+
+    const headers = rows[0];
+
+    const codeIdx = findColumnIndex(headers, [
+      "HCPCS Code", "HCPCS", "Code", "CPT/HCPCS"
+    ]);
+
+    const localityIdx = findColumnIndex(headers, [
+      "Locality", "Carrier Locality", "MAC Locality"
+    ]);
+
+    const nonfacilityIdx = findColumnIndex(headers, [
+      "Non-Facility Price", "Nonfacility Price", "Non-Facility",
+      "Non-Facility Payment Amount", "Nonfacility"
+    ]);
+
+    const facilityIdx = findColumnIndex(headers, [
+      "Facility Price", "Facility", "Facility Payment Amount"
+    ]);
+
+    if (codeIdx === -1){
+      throw new Error("Could not find CPT/HCPCS column in CMS file.");
+    }
+
+    const imported = {};
+    for (let i = 1; i < rows.length; i++){
+      const r = rows[i];
+      const code = (r[codeIdx] || "").trim();
+      if (!code) continue;
+
+      if (localityIdx !== -1){
+        const locality = (r[localityIdx] || "").trim();
+        if (CMS_LOCALITY_NAME && locality && locality !== CMS_LOCALITY_NAME) continue;
+      }
+
+      const nonfacility = nonfacilityIdx !== -1 ? parseFloat(r[nonfacilityIdx]) : NaN;
+      const facility = facilityIdx !== -1 ? parseFloat(r[facilityIdx]) : NaN;
+
+      if (!Number.isFinite(nonfacility) && !Number.isFinite(facility)) continue;
+
+      imported[code] = {
+        nonfacility: Number.isFinite(nonfacility) ? nonfacility : 0,
+        facility: Number.isFinite(facility) ? facility : 0
+      };
+    }
+
+    fees = {
+      year: CMS_YEAR,
+      locality: "GA_ATLANTA",
+      codes: imported
+    };
+
+    saveFees();
+    alert(`Imported CMS fee schedule: ${Object.keys(imported).length} codes.`);
+  }catch(err){
+    console.error(err);
+    alert(`CMS import failed: ${err.message}`);
+  }
+}
+
 function loadCmsRateIntoRate(){
-  alert("Baseline fee loading placeholder is active. Add your fee data here when ready.");
+  const code = $("code")?.value || "";
+  const setting = $("cmsSetting")?.value || "nonfacility";
+  const row = fees.codes?.[code];
+
+  if (!row){
+    alert(`No imported CMS rate found for ${code}.`);
+    return;
+  }
+
+  const val = row[setting];
+  if (!Number.isFinite(val) || val <= 0){
+    alert(`No ${setting} rate found for ${code}.`);
+    return;
+  }
+
+  if ($("rate")) $("rate").value = val.toFixed(2);
+  calc();
 }
 
 function exportFees(){
@@ -865,7 +963,7 @@ function wire(){
   renderPlanUI();
 
   [
-    "patientName","patientDob","dosDateTime","patientEmail","providerName","note",
+    "patientName","patientDob","dosDateTime","patientEmail","billDueDate","providerName","note",
     "code","rate","count","minutes","units","weeksPerMonth","payerMultiplier","cmsSetting",
     "mixCode","mixUnits"
   ].forEach(id => $(id)?.addEventListener("input", () => {
@@ -884,6 +982,7 @@ function wire(){
   }));
 
   $("loadCmsRateBtn")?.addEventListener("click", (e) => { e.preventDefault(); loadCmsRateIntoRate(); });
+  $("importCmsBtn")?.addEventListener("click", (e) => { e.preventDefault(); importCmsFeeSchedule(); });
   $("exportFeesBtn")?.addEventListener("click", (e) => { e.preventDefault(); exportFees(); });
   $("importFeesBtn")?.addEventListener("click", (e) => { e.preventDefault(); importFeesPrompt(); });
   $("importFile")?.addEventListener("change", (e) => {
