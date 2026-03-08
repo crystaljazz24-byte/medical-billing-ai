@@ -474,16 +474,30 @@
           </div>
         </div>
 
-        <div class="row">
-          <div>
-            <label for="weeksPerMonth">Weeks per month</label>
-            <input id="weeksPerMonth" type="number" step="0.01" value="4.33" />
-          </div>
-          <div>
-            <label for="payerMultiplier">Payer multiplier (optional)</label>
-            <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.10" />
-          </div>
-        </div>
+       <div class="row">
+
+  <div>
+    <label for="weeksPerMonth">Weeks per month</label>
+    <input id="weeksPerMonth" type="number" step="0.01" value="4.33" />
+  </div>
+
+  <div>
+    <label for="payerMultiplier">Payer multiplier (optional)</label>
+    <input id="payerMultiplier" type="number" step="0.01" placeholder="e.g., 1.10" />
+
+    <label>Payer preset</label>
+    <select id="payerPreset">
+      <option value="">Select payer</option>
+      <option value="1.00">Medicare</option>
+      <option value="1.18">Aetna</option>
+      <option value="1.32">BCBS</option>
+      <option value="1.24">Cigna</option>
+      <option value="0.82">Medicaid</option>
+    </select>
+
+  </div>
+
+</div>
 
         <div class="proBox">
           <div style="font-weight:900;">CMS Baseline</div>
@@ -588,6 +602,7 @@
             <div class="k">Count</div><div class="v" id="rCount">—</div>
             <div class="k">Units</div><div class="v" id="rUnits">—</div>
             <div class="k">Multiplier</div><div class="v" id="rMult">—</div>
+          
           </div>
 
           <div class="divider"></div>
