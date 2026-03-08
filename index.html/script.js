@@ -599,6 +599,30 @@ function lockPro(){
   alert("Pro locked.");
 }
 
+function validateClaim(){
+
+  const errors = [];
+
+  const npi = $("c_billNpi")?.value || "";
+  const dx1 = $("c_dx1")?.value || "";
+  const cpt = $("c_cpt")?.value || "";
+  const charge = parseFloat($("c_charge")?.value || "0") || 0;
+  const dos = $("c_dos")?.value || "";
+
+  if (!npi || npi.length !== 10) errors.push("Billing NPI must be 10 digits.");
+  if (!dx1) errors.push("DX1 diagnosis is required.");
+  if (!cpt) errors.push("CPT code is required.");
+  if (!dos) errors.push("Date of service is required.");
+  if (charge <= 0) errors.push("Charge must be greater than $0.");
+
+  if (errors.length){
+    alert("Claim validation errors:\n\n" + errors.join("\n"));
+    return false;
+  }
+
+  return true;
+}
+
 function buildClaimPacket(){
   const get = (id) => $(id)?.value ?? "";
 
@@ -666,25 +690,35 @@ function renderClaimPreview(){
 }
 
 function exportClaimJson(){
+
+  if(!validateClaim()) return;
+
   const claim = buildClaimPacket();
-  const blob = new Blob([JSON.stringify(claim, null, 2)], { type:"application/json;charset=utf-8" });
+
+  const blob = new Blob([JSON.stringify(claim, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
   a.download = "assuremed_claim.json";
   document.body.appendChild(a);
   a.click();
   a.remove();
+
   URL.revokeObjectURL(url);
 }
 
 function generate837EDI(){
+
+  if(!validateClaim()) return;
+
   const claim = buildClaimPacket();
 
   const patient = claim.patient.name || "PATIENT";
-  const cpt = claim.serviceLines?.[0]?.cpt || "";
-  const units = claim.serviceLines?.[0]?.units || 1;
-  const charge = claim.serviceLines?.[0]?.charge || 0;
+  const cpt = claim.serviceLines[0].cpt || "";
+  const units = claim.serviceLines[0].units || 1;
+  const charge = claim.serviceLines[0].charge || 0;
+
   const providerNPI = claim.provider.billingNpi || "1234567890";
   const payer = claim.payer.name || "PAYER";
 
