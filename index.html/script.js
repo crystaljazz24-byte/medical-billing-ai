@@ -162,6 +162,9 @@ function getState(){
     patientEmail: $("patientEmail")?.value ?? "",
     billDueDate: $("billDueDate")?.value ?? "",
     providerName: $("providerName")?.value ?? "",
+
+    payerPreset: $("payerPreset")?.value ?? "",
+
     note: $("note")?.value ?? "",
     code: $("code")?.value ?? "",
     rate: $("rate")?.value ?? "",
@@ -206,12 +209,16 @@ function setState(s){
   if (!s) return;
 
   const ids = [
-    "patientName","patientDob","dosDateTime","patientEmail","billDueDate","providerName","note",
+    "patientName","patientDob","dosDateTime","patientEmail",
+    "billDueDate","providerName","note",
+    "payerPreset",
     "rate","count","minutes","units","weeksPerMonth","payerMultiplier","cmsSetting",
     "rate90834","rate90837","compareSessions",
     "c_patientName","c_patientDob","c_patientEmail","c_patientSex","c_dos","c_pos",
     "c_subscriberName","c_memberId","c_payerName","c_payerId","c_relationship","c_claimType",
-    "c_billProvName","c_billNpi","c_taxId","c_dx1","c_dx2","c_dx3","c_cpt","c_units",
+    "c_billProvName","c_billNpi","c_taxId",
+    "c_dx1","c_dx2","c_dx3",
+    "c_cpt","c_units",
     "c_charge","c_mod1","c_mod2","c_patientDue"
   ];
 
