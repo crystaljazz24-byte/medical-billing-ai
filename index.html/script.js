@@ -1038,6 +1038,17 @@ function wire(){
   $("printBtn")?.addEventListener("click", printPDF);
   $("emailBillBtn")?.addEventListener("click", (e) => { e.preventDefault(); emailBillAmountOnly(); });
 
+  $("payerPreset")?.addEventListener("change", () => {
+
+  const val = $("payerPreset").value;
+  if(!val) return;
+
+  $("payerMultiplier").value = val;
+
+  calc();
+
+});
+
   $("openPayBtn")?.addEventListener("click", openPay);
   $("unlockBtn")?.addEventListener("click", unlockPro);
   $("lockBtn")?.addEventListener("click", lockPro);
