@@ -717,7 +717,6 @@ function exportClaimJson(){
 }
 
 function generate837EDI(){
-
   if(!validateClaim()) return;
 
   const claim = buildClaimPacket();
@@ -749,32 +748,41 @@ IEA*1*000000001~`;
 
   const blob = new Blob([edi], { type:"text/plain" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
   a.download = "assuremed_837P.txt";
   document.body.appendChild(a);
   a.click();
   a.remove();
+
   URL.revokeObjectURL(url);
 }
 
-function fillClaimFromSession(){
-  if ($("c_patientName")) $("c_patientName").value = $("patientName")?.value || "";
-  if ($("c_patientDob")) $("c_patientDob").value = $("patientDob")?.value || "";
-  if ($("c_patientEmail")) $("c_patientEmail").value = $("patientEmail")?.value || "";
-  if ($("c_dos")) $("c_dos").value = $("dosDateTime")?.value || "";
-  if ($("c_cpt")) $("c_cpt").value = $("code")?.value || "";
+async function submitClaim(){
+  if(!validateClaim()) return;
 
-  const units = parseFloat($("units")?.value || "1") || 1;
-  if ($("c_units")) $("c_units").value = String(units);
+  const claim = buildClaimPacket();
 
-  const rate = parseFloat($("rate")?.value || "0") || 0;
-  const mult = parseFloat($("payerMultiplier")?.value || "1") || 1;
-  const visitCharge = rate * units * mult;
-  if ($("c_charge")) $("c_charge").value = visitCharge > 0 ? visitCharge.toFixed(2) : "";
+  try{
+    const res = await fetch("/api/submit-claim", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(claim)
+    });
 
-  renderClaimPreview();
-  saveState();
+    if(!res.ok){
+      throw new Error("Submission failed");
+    }
+
+    const data = await res.json();
+    alert("Claim submitted successfully.\nClaim ID: " + data.claimId);
+  }catch(err){
+    console.error(err);
+    alert("Could not submit claim. Check server connection.");
+  }
 }
 
 function emailBillAmountOnly(){
@@ -1064,6 +1072,10 @@ function wire(){
   $("exportClaimJsonBtn")?.addEventListener("click", (e) => { e.preventDefault(); exportClaimJson(); });
   $("fillClaimFromSessionBtn")?.addEventListener("click", (e) => { e.preventDefault(); fillClaimFromSession(); });
   $("generate837Btn")?.addEventListener("click", (e) => { e.preventDefault(); generate837EDI(); });
+  $("submitClaimBtn")?.addEventListener("click", (e)=>{
+  e.preventDefault();
+  submitClaim();
+});
 
   if ($("yr")) $("yr").textContent = new Date().getFullYear();
 
