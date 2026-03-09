@@ -10,7 +10,8 @@ const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/cNi4gzgMDavS0EJ68u8IU01";
   Paste the official CMS CSV export URL here when ready.
   Leave blank until you have it.
 */
-const CMS_PFS_CSV_URL = "";
+const CMS_PFS_CSV_URL =
+"https://data.cms.gov/provider-payment/physician-fee-schedule-pfs/2026.csv";
 const CMS_LOCALITY_NAME = "GA Atlanta";
 const CMS_YEAR = "2026";
 
