@@ -332,18 +332,51 @@
       .wrap{ max-width:100% !important; }
       #printBtn{ display:none !important; }
     }
+/* ===== Executive Navigation ===== */
+
+.mainNav{
+    display:flex;
+    gap:24px;
+    align-items:center;
+}
+
+.mainNav a{
+    color:#ffffff;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.2s ease;
+}
+
+.mainNav a:hover{
+    color:#d9f3ff;
+}
+
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <div class="topbar">
-      <div class="brand"><div class="logo"></div> Assure Med</div>
-      <div class="pill">
-        <span class="dot" id="proDot"></span>
-        <span id="planLabel">Free</span>
-      </div>
-    </div>
+
+  <div class="brand">
+    <div class="logo"></div>
+    Assure Med
+  </div>
+
+  <nav class="mainNav">
+    <a href="#dashboard">Dashboard</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#claims">Claims</a>
+    <a href="#reports">Reports</a>
+    <a href="#settings">Settings</a>
+  </nav>
+
+  <div class="pill">
+    <span class="dot" id="proDot"></span>
+    <span id="planLabel">Free</span>
+  </div>
+
+</div>
 
     <div class="hero">
       <div class="card">

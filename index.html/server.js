@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = 3000;
@@ -7,25 +8,44 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve all static files (index.html, script.js, styles.css)
+app.use(express.static(__dirname));
+
+// Temporary in-memory claims
+let claims = [];
+
+// Home page
+app.get("/", (req, res) => {
+    res.send("HELLO FROM ASSURE MED");
+});
+
+// Get all claims
+app.get("/api/claims", (req, res) => {
+    res.json(claims);
+});
+
+// Submit claim
 app.post("/api/submit-claim", (req, res) => {
-  const claim = req.body;
 
-  if (!claim) {
-    return res.status(400).json({ error: "Missing claim payload" });
-  }
+    const claim = req.body;
 
-  console.log("Received claim:");
-  console.log(JSON.stringify(claim, null, 2));
+    if (!claim) {
+        return res.status(400).json({
+            error: "Missing claim payload"
+        });
+    }
 
-  const fakeClaimId = "CLM-" + Date.now();
+    claims.push(claim);
 
-  return res.json({
-    success: true,
-    claimId: fakeClaimId,
-    message: "Claim received successfully"
-  });
+    console.log("Claim received:", claim);
+
+    res.json({
+        success: true,
+        claimId: "CLM-" + Date.now()
+    });
+
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Assure Med running at http://localhost:${PORT}`);
 });
